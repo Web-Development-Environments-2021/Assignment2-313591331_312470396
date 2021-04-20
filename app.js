@@ -11,7 +11,20 @@ var width;
 var height;
 var elem_in_axis = 10;
 
+function screenSwitch(divToShow) {
+	resetView()
+	$(divToShow).show();
+}
+
+function resetView(){
+	$("#game").hide();
+	$("#register").hide();
+	$("#login").hide();
+	
+}
+
 $(document).ready(function () {
+  resetView();
   context = canvas.getContext("2d");
   Start();
 });
