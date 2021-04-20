@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="app.css" />
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+		<div class="head-container">
+			<div class="c">
+                <img src="assets/pacman_logo.png" width="36" height="36"/>
+            </div>
+			<div style="margin-right: 20px;">PACMAN </div>
+			<div style="margin-right: 20px;">Eden Berdugo </div>
+			<div style="margin-right: 20px;">Barak Falach </div>
+		</div>
+		
 	</head>
 
 	<body>
@@ -15,7 +25,10 @@
 			<input id="lblTime" type="text" />
 		</div>
 		<div id="game">
-			<canvas id="canvas" height="800" width="800"></canvas>
+			<canvas id="canvas" height="500px" width="500px"></canvas>
+		</div>
+		<div>
+			<button>Start New Game</button>
 		</div>
 	</body>
 </html>
