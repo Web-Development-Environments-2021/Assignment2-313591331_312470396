@@ -2,44 +2,53 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="app.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 		<div class="head-container">
 			<div class="c">
                 <img src="assets/pacman_logo.png" width="36" height="36"/>
             </div>
-			<div style="margin-right: 20px;">PACMAN </div>
+			<div style="margin-left:10px; margin-right: 20px;">PACMAN </div>
 			<div style="margin-right: 20px;">Eden Berdugo </div>
 			<div style="margin-right: 20px;">Barak Falach </div>
 		</div>
-		
 	</head>
-
 	<body>
 		<div id="button-container">
 			<button   onclick="screenSwitch('#game')">Game</button>
 			<button  onclick="screenSwitch('#register')">Register</button>
 			<button  onclick="screenSwitch('#login')">Log In</button>
 		</div>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
-		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
-		</div>
 		<div id="game">
+			<div id="score">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+			</div>
+			<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+			</div>
 			<canvas id="canvas" height="500px" width="500px"></canvas>
 		</div>
-		<div>
-			<button>Start New Game</button>
+		<div class="form-container" id="login">
+			<div id="login-form" > 
+				<input class="login-input" type="text" placeholder="Enter User Name" id="user-name" name="name">
+				<input class="login-input" type="password" placeholder="Enter Password" id="password" name="password">
+				<button id="login-button" >Login</button>
+			</div>
 		</div>
-		<div id="register">
-			<h1>Register Page</h1>
-		</div>
-		<div id="login">
-			<h1>Log In Page</h1>
+		<div class="form-container" id="register">
+			<div id="login-form" > 
+				<input id="full-name" class="login-input" type="text" placeholder="Full Name">
+				<input id="email" class="login-input" type="text" placeholder="Email">
+				<input id="birth-date" class="login-input" type="date" >
+				<input id="user-name-reg" class="login-input" type="text" placeholder="Choose User Name">
+				<input id="password-reg" class="login-input" type="password" placeholder="Enter Password" id="password" name="password">
+				<button id="register-button" >Register</button>
+			</div>
 		</div>
 	</body>
 </html>
