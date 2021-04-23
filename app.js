@@ -10,22 +10,26 @@ var total_food;
 var width;
 var height;
 var elem_in_axis = 10;
+var num_of_enemies = 1;
+var enemy_positions = {};
+var last_enemy_positions;
 
 function screenSwitch(divToShow) {
-	resetView()
-	$(divToShow).show();
+  resetView();
+  $(divToShow).show();
 }
 
-function resetView(){
-	$("#game").hide();
-	$("#register").hide();
-	$("#login").hide();
-	
+function resetView() {
+  $("#game").hide();
+  $("#register").hide();
+  $("#login").hide();
 }
 
 $(document).ready(function () {
   resetView();
   context = canvas.getContext("2d");
+  num_of_enemies = 4; //remove !
+  last_enemy_positions = Array[num_of_enemies];
   Start();
 });
 
@@ -74,6 +78,7 @@ function Start() {
       }
     }
   }
+  addEnemies(board);
   while (food_remain > 0) {
     var emptyCell = findRandomEmptyCell(board);
     board[emptyCell[0]][emptyCell[1]] = 1;
@@ -96,6 +101,58 @@ function Start() {
   );
   interval = setInterval(UpdatePosition, 250);
 }
+function addEnemies(board) {
+  console.log(board);
+  remain_enemies = num_of_enemies - 1;
+  enemy_positions = {
+    0: [0, 0],
+    1: [0, elem_in_axis - 1],
+    2: [elem_in_axis - 1, 0],
+    3: [elem_in_axis - 1, elem_in_axis - 1],
+  };
+  while (remain_enemies >= 0) {
+    pos = enemy_positions[remain_enemies];
+    console.log(pos);
+    if (board[pos[0]][pos[1]] == 1) {
+      replace_cell = findRandomEmptyCell(board);
+      board[replace_cell[0]][replace_cell[1]] = 1;
+      board[pos[0]][pos[1]] = 5;
+    } else if (board[pos[0]][pos[1]] == 0) {
+      board[pos[0]][pos[1]] = 5;
+    }
+    remain_enemies--;
+  }
+  console.log(board);
+}
+
+function moveEnemies(board) {
+  for (let index = num_of_enemies - 1; index >= 0; index--) {
+    enemy_i = enemy_positions[index][0];
+    enemy_j = enemy_positions[index][1];
+    i_diff = Math.abs(shape.i - enemy_i);
+    j_diff = Math.abs(shape.j - enemy_j);
+    if (i_diff > j_diff) {
+      //move x axis
+      distance = enemy_i - shape.i;
+      if (distance > 0) {
+        //move left
+        board[enemy_i][enemy_j] = last_enemy_positions[index];
+		last_enemy_positions[index] =
+        board[enemy_i - 1][enemy_j] = 5;
+        enemy_positions[index] = [enemy_i - 1, enemy_j];
+      } else if (distance < 0) {
+        // move right
+        board[enemy_i][enemy_j] = 0;
+        board[enemy_i + 1][enemy_j] = 5;
+        enemy_positions[index] = [enemy_i + 1, enemy_j];
+      }
+    }
+  }
+}
+function addOnBoard(board, x, y, value) {
+  board[x][y] = value;
+}
+function replaceOnBoard(board, oldX, oldY, oldValue, newX, newY, value) {}
 
 function findRandomEmptyCell(board) {
   var i = Math.floor(Math.random() * 9 + 1);
@@ -173,13 +230,24 @@ function Draw() {
         );
         context.fillStyle = "grey"; //color
         context.fill();
+      } else if (board[i][j] == 5) {
+        context.beginPath();
+        context.rect(
+          center.x - elem_size / 2,
+          center.y - elem_size / 2,
+          elem_size,
+          elem_size
+        );
+        context.fillStyle = "red"; //color
+        context.fill();
       }
     }
   }
 }
 
 function UpdatePosition() {
-  board[shape.i][shape.j] = 0;
+  moveEnemies(board);
+
   var x = GetKeyPressed();
   if (x == 1) {
     if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
