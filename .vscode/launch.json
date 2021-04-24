@@ -1,0 +1,15 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "file:///C:/Users/berdu/Programming%20Projects/Bgu/2021/2021-F/Web%20Environments/assignment2-Barak_Eden/index.html",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}
