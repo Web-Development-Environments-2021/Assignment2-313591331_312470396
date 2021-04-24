@@ -44,9 +44,12 @@ var colorJson = {
 };
 
 function screenSwitch(divToShow) {
-  resetView();
-  $(divToShow).show();
-  $("#board").hide();
+
+	resetView()
+	$(divToShow).show();
+  if (divToShow=="#game"){
+  context = canvas.getContext("2d");
+  Start();}
 }
 
 function about() {
@@ -122,33 +125,32 @@ function initSelector() {
 }
 
 function keyConfig(keyToConfig) {
-  $("button").prop("disabled", true);
-  console.log("Key " + keyToConfig);
-  removeEventListener("keydown", keyConfig);
+  $("#"+keyToConfig+"-config").text("Click on key");        
+  $("button").prop("disabled",true)
+  console.log("Key " + keyToConfig)
+  removeEventListener("keydown",keyConfig)
   let keyValue;
   var keyPress = false;
-  keyConfigListener = addEventListener("keydown", function (e) {
-    if (!keyPress) {
-      keyValue = e.keyCode;
-      const label = arrowKey[keyValue]
-        ? arrowKey[keyValue]
-        : String.fromCodePoint(keyValue);
-      $("#" + keyToConfig + "-lbl").text(label);
-      console.log("value = " + keyValue);
-      controls[keyToConfig] = keyValue;
-      $("button").prop("disabled", false);
-    }
-    keyPress = true;
-  });
-}
+  keyConfigListener = addEventListener(
+    "keydown",
+    function (e) {
+      if (!keyPress)
+      {
+        keyValue = e.keyCode;
+        const label = arrowKey[keyValue] ? arrowKey[keyValue] : String.fromCodePoint(keyValue)
+        $("#"+keyToConfig+"-config").text(label);        
+        console.log("value = " + keyValue);
+        controls[keyToConfig] = keyValue
+        $("button").prop("disabled",false)
+      }
+      keyPress = true
+    });
+};
 
 $(document).ready(function () {
   resetView();
   $("#welcome").show();
-  initSelector();
-  context = canvas.getContext("2d");
-  Start();
-
+  initSelector()
   $("#login-button").click(function () {
     console.log("Login!");
     var name = $("#user-name").val();

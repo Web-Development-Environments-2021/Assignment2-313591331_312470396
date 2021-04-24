@@ -54,10 +54,14 @@ body {
   color:#fff;
   border:none;
   transition: 0.4s;
-  /* width: fit-content; */
+  width: fit-content;
+  height: fit-content;
 }
 .app-btn:hover{
   background-color: #a8dadc;
+}
+.app-btn:disabled{
+  background-color: darkgrey;
 }
 
 #login-form{
@@ -80,7 +84,9 @@ body {
 
 .form-container{
   margin-top:15vh;
-
+}
+.config-container{
+  margin-top:4vh;
 }
 
 
@@ -107,24 +113,6 @@ h1,h2,h3{
   color: #fff;
 }
 
-#key-config-container{
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 3%;
-  width: 60%;
-}
-
-.key-config-container{
-  margin-right: 2vw;
-}
-
-#color-config-container{
-  width: 60%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 3%;
-}
-
 .color-config-container{
   display: flex;
   justify-content: center;
@@ -133,31 +121,24 @@ h1,h2,h3{
   font-size: 3vh;
 }
 
-.color-input{
+.config-input{
   border:none;
   margin-left:4px;
   border-radius: 6px;
   padding-left: 5px;
   font-size: 3vh;
   font-weight: bold;
+  text-align: center;
   height: 4vh;
-  width: 8vw
+  width: 15vw
 }
 
 .key-config-btn{
   margin-left: 0px;
   margin-right: 0px;
+  width: 15vw
 }
 
-.config-num{
-  border:none;
-  border-radius: 6px;
-  padding-left: 5px;
-  font-size: 3vh;
-  font-weight: bold;
-  height: 4vh;
-  width: 5vw
-}
 
 #numeric-config-container{
   margin-bottom: 3%;
@@ -165,7 +146,15 @@ h1,h2,h3{
   display: flex;
   justify-content: space-around;
   width: 60%;
+}
 
+.config-field{
+  margin:10px 0 10px 0 ;
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+  font-size: 2.5vh;
+  color: #fff;
 }
 
 html,body{
