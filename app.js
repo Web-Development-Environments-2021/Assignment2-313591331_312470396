@@ -99,6 +99,7 @@ function initSelector(){
 }
 
 function keyConfig(keyToConfig) {
+  $("#"+keyToConfig+"-config").text("Click on key");        
   $("button").prop("disabled",true)
   console.log("Key " + keyToConfig)
   removeEventListener("keydown",keyConfig)
@@ -111,7 +112,7 @@ function keyConfig(keyToConfig) {
       {
         keyValue = e.keyCode;
         const label = arrowKey[keyValue] ? arrowKey[keyValue] : String.fromCodePoint(keyValue)
-        $("#"+keyToConfig+"-lbl").text(label);        
+        $("#"+keyToConfig+"-config").text(label);        
         console.log("value = " + keyValue);
         controls[keyToConfig] = keyValue
         $("button").prop("disabled",false)

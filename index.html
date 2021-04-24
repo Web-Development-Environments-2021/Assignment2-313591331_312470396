@@ -49,68 +49,62 @@
 			<canvas id="canvas" height="500px" width="500px"></canvas>				
 		</div>
 		<div id="config">
-			<div class="form-container">
+			<div class="config-container">
 				<div id="login-form" >
-					<div id="numeric-config-container">
-						<div>
+						<div class="config-field">
 						<label>Apples</label>
-						<select id="food-config" class="config-num" type="number"></select>
+						<select id="food-config" class="config-input" type="number"></select>
 						</div>
-						<div>
+						<div class="config-field">
 						<label>Monster</label>
-						<select id="monster-config" class="config-num" type="number" min="1" max="4">
+						<select id="monster-config" class="config-input" type="number" min="1" max="4">
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
 							<option value="4">4</option>
 						</select>
 						</div>
-						<div>
+						<div class="config-field">
 						<label>Time</label>
-						<input id="time-config" class="config-num" type="number">
+						<input id="time-config" class="config-input" type="number" style="padding: 0px;">
 						</div>
-					</div>
-					<div id="color-config-container">
-						<div class="color-config-container">
+						<div class="config-field">
 							<label>#1 Color</label>
-							<select class="color-input" id="color1-config">
+							<select class="color-input config-input" id="color1-config">
 								<option></option>
 							</select>
 						</div>
-						
-						<div class="color-config-container">
+						<div class="config-field">
 							<label>#2 Color</label>
-							<select class="color-input" id="color2-config">
+							<select class="color-input config-input" id="color2-config">
 								<option></option>
-								
 							</select>
 						</div>
-						<div class="color-config-container">
+						<div class="config-field">
 							<label>#3 Color</label>
-							<select class="color-input" id="color3-config">
+							<select class="color-input config-input" id="color3-config">
 								<option></option>
-								
 							</select>
 						</div>
-					</div>	
-					<div id="key-config-container">
-						<div class="key-config-container">
-							<button onclick="keyConfig('up')" class="app-btn key-config-btn" id="up-config">Up</button>
-							<label id="up-lbl" class="login-input" >TBD</label>
+						<div class="config-field" style="justify-content: center;">
+							<h3><b><u>Controls Settings</u></b></h3>
 						</div>
-						<div class="key-config-container">
-							<button onclick="keyConfig('left')" class="app-btn key-config-btn" id="left-config">Left</button>
-							<label id="left-lbl" class="login-input" >TBD</label>
+						<div class="config-field">
+							<label id="up-lbl" >Up</label>
+							<button onclick="keyConfig('up')" class="app-btn key-config-btn" id="up-config">up</button>
 						</div>
-						<div class="key-config-container">
-							<button onclick="keyConfig('down')" class="app-btn key-config-btn" id="down-config">Down</button>
-							<label id="down-lbl" class="login-input" >TBD</label>
+						<div class="config-field">
+							<label id="left-lbl" >Left</label>
+							<button onclick="keyConfig('left')" class="app-btn key-config-btn" id="left-config">left</button>
 						</div>
-						<div class="key-config-container">
-							<button onclick="keyConfig('right')" class="app-btn key-config-btn" id="right-config">Right</button>
-							<label id="right-lbl" class="login-input" >TBD</label>
+						<div class="config-field">
+							<label id="down-lbl" >Down</label>
+							<button onclick="keyConfig('down')" class="app-btn key-config-btn" id="down-config">down</button>
 						</div>
-					</div>
+						<div class="config-field">
+							<label id="right-lbl" >Right</label>
+							<button onclick="keyConfig('right')" class="app-btn key-config-btn" id="right-config">right</button>							
+						</div>
 					<button class="app-btn" id="start-btn">Start Game</button>
 				</div>
 		</div>
