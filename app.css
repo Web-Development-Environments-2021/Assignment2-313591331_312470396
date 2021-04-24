@@ -2,6 +2,7 @@ body {
   padding-top: 5vh;
   background-image: linear-gradient(rgba(69,123,157,0.7),rgba(69,123,157,0.7)) , url("assets/2.jpeg");
   background-size: cover;
+  y
 }
 
 *{
@@ -167,7 +168,27 @@ h1,h2,h3{
 
 }
 
+html,body{
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.container-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 
-
-
-
+#score{
+  margin-top: 5px;
+}
+#time{
+  margin-top: 5px;
+}
+#game{
+  display: flex;
+  flex-direction: column;
+}
+#canvas{
+  position: relative;
+  left:calc(50vw - 35vh);
+}
