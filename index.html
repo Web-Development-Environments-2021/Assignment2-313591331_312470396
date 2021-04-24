@@ -21,7 +21,8 @@
 	</head>
 	<body>
 		<div class="button-container">
-			<button class="app-btn" onclick="screenSwitch('#game')">Game (button need to be removed)</button>
+			<button class="app-btn" onclick="screenSwitch('#config')">config</button>
+			<button class="app-btn" onclick="screenSwitch('#game')">Game</button>
 			<button class="app-btn" onclick="screenSwitch('#welcome')">Welcome</button>
 			<button class="app-btn" onclick="screenSwitch('#register')">Register</button>
 			<button class="app-btn" onclick="screenSwitch('#login')">Log In</button>
@@ -45,7 +46,74 @@
 				<label for="lblTime">TIME:</label>
 				<input id="lblTime" type="text" />
 			</div>
-			<canvas id="canvas" height="500px" width="500px"></canvas>
+			<canvas id="canvas" height="500px" width="500px"></canvas>				
+		</div>
+		<div id="config">
+			<div class="form-container">
+				<div id="login-form" >
+					<div id="numeric-config-container">
+						<div>
+						<label>Apples</label>
+						<select id="food-config" class="config-num" type="number"></select>
+						</div>
+						<div>
+						<label>Monster</label>
+						<select id="monster-config" class="config-num" type="number" min="1" max="4">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+						</div>
+						<div>
+						<label>Time</label>
+						<input id="time-config" class="config-num" type="number">
+						</div>
+					</div>
+					<div id="color-config-container">
+						<div class="color-config-container">
+							<label>#1 Color</label>
+							<select class="color-input" id="color1-config">
+								<option></option>
+							</select>
+						</div>
+						
+						<div class="color-config-container">
+							<label>#2 Color</label>
+							<select class="color-input" id="color2-config">
+								<option></option>
+								
+							</select>
+						</div>
+						<div class="color-config-container">
+							<label>#3 Color</label>
+							<select class="color-input" id="color3-config">
+								<option></option>
+								
+							</select>
+						</div>
+					</div>	
+					<div id="key-config-container">
+						<div class="key-config-container">
+							<button onclick="keyConfig('up')" class="app-btn key-config-btn" id="up-config">Up</button>
+							<label id="up-lbl" class="login-input" >TBD</label>
+						</div>
+						<div class="key-config-container">
+							<button onclick="keyConfig('left')" class="app-btn key-config-btn" id="left-config">Left</button>
+							<label id="left-lbl" class="login-input" >TBD</label>
+						</div>
+						<div class="key-config-container">
+							<button onclick="keyConfig('down')" class="app-btn key-config-btn" id="down-config">Down</button>
+							<label id="down-lbl" class="login-input" >TBD</label>
+						</div>
+						<div class="key-config-container">
+							<button onclick="keyConfig('right')" class="app-btn key-config-btn" id="right-config">Right</button>
+							<label id="right-lbl" class="login-input" >TBD</label>
+						</div>
+					</div>
+					<button class="app-btn" id="start-btn">Start Game</button>
+				</div>
+		</div>
 		</div>
 		<div class="form-container" id="login">
 			<div id="login-form" > 
