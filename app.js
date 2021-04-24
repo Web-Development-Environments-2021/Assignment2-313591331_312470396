@@ -1,14 +1,32 @@
 var context;
 var shape = new Object();
 var board;
+var board2;
 var score;
 var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
 var total_food;
+var food_remain;
 var width;
 var height;
+var num_of_enemies;
+var enemy_positions = {};
+var last_enemy_positions = [0, 0, 0, 0];
+var point_monster;
+var count_point_monster;
+var board_for_enemies;
+var rows;
+var cols;
+var time = 250;
+var crash_place = [,];
+//0 empty
+//1 food
+//2 packman
+//3 50points "point_monster"
+//4 is wall
+//5 enemy
 var elem_in_axis = 10;
 var dataBase = {'k':'k'} // <username:password>
 var input;
@@ -22,6 +40,7 @@ function screenSwitch(divToShow) {
 	$(divToShow).show();
   $("#board").hide();
 }
+
 
 function about(){
   console.log("ABOUT");
@@ -173,55 +192,26 @@ $(document).ready(function () {
 
 
 function Start() {
-  //4 is wall
-  //1 is food
-  //0
-  //2 is pacman
+  num_of_enemies = 1; //remove !
+  count_point_monster = 1;
+  rows = 10; //Remove TODO
+  cols = 10;
+  point_monster = [Math.floor((rows - 1) / 2), Math.floor((cols - 1) / 2)];
   width = canvas.width;
   height = canvas.height;
   board = new Array();
+  board2 = new Array();
   score = 0;
   pac_color = "yellow";
-  var cnt = 100;
-  total_food = 50;
-  var food_remain = total_food;
-  var pacman_remain = 1;
   start_time = new Date();
-  for (var i = 0; i < 10; i++) {
-    board[i] = new Array();
-    //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-    for (var j = 0; j < 10; j++) {
-      if (
-        (i == 3 && j == 3) ||
-        (i == 3 && j == 4) ||
-        (i == 3 && j == 5) ||
-        (i == 6 && j == 1) ||
-        (i == 6 && j == 2)
-      ) {
-        board[i][j] = 4;
-      } else {
-        var randomNum = Math.random();
-        if (randomNum <= (1.0 * food_remain) / cnt) {
-          food_remain--;
-          board[i][j] = 1;
-        } else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-          //Put the pacman itself
-          shape.i = i;
-          shape.j = j;
-          pacman_remain--;
-          board[i][j] = 2;
-        } else {
-          board[i][j] = 0;
-        }
-        cnt--;
-      }
-    }
-  }
-  while (food_remain > 0) {
-    var emptyCell = findRandomEmptyCell(board);
-    board[emptyCell[0]][emptyCell[1]] = 1;
-    food_remain--;
-  }
+  enemy_positions = {
+    0: [0, 0],
+    1: [0, cols - 1],
+    2: [rows - 1, 0],
+    3: [rows - 1, cols - 1],
+  };
+  gameBoardCreation();
+  addEnemies();
   keysDown = {};
   addEventListener(
     "keydown",
@@ -237,49 +227,129 @@ function Start() {
     },
     false
   );
-  interval = setInterval(UpdatePosition, 250);
+  interval = setInterval(UpdatePosition, time);
+}
+function addEnemies() {
+  //Adds enemies only to board2
+  //Goods and bads
+  remain_enemies = num_of_enemies - 1;
+  while (remain_enemies >= 0) {
+    pos = enemy_positions[remain_enemies];
+    board2[pos[0]][pos[1]] = 5;
+    remain_enemies--;
+  }
+  board2[point_monster[0]][point_monster[1]] = 3;
 }
 
+function moveEnemies() {
+  for (let index = num_of_enemies - 1; index >= 0; index--) {
+    enemy_i = enemy_positions[index][0];
+    enemy_j = enemy_positions[index][1];
+    i_diff = Math.abs(shape.i - enemy_i);
+    j_diff = Math.abs(shape.j - enemy_j);
+    let wall_stuck = false;
+    const move = Math.random() > 0.15 ? true : false;
+    if (!move) {
+      board2[enemy_i][enemy_j] = 5;
+      continue;
+    }
+    if (i_diff > j_diff) {
+      //move y axis
+      distance = enemy_i - shape.i;
+      if (distance > 0 && PointMonAbleToGoThere("up", enemy_i, enemy_j)) {
+        enemy_i -= 1;
+      } else if (
+        distance < 0 &&
+        PointMonAbleToGoThere("down", enemy_i, enemy_j)
+      ) {
+        enemy_i += 1;
+      } else {
+        //enemy did not succeed to pass wall.
+        wall_stuck = true;
+      }
+    } else {
+      //move x axis
+      distance = enemy_j - shape.j;
+      if (distance > 0 && PointMonAbleToGoThere("left", enemy_i, enemy_j)) {
+        enemy_j -= 1;
+      } else if (
+        distance < 0 &&
+        PointMonAbleToGoThere("right", enemy_i, enemy_j)
+      ) {
+        enemy_j += 1;
+      } else {
+        //enemy did not succeed to pass wall.
+        wall_stuck = true;
+      }
+    }
+    if (wall_stuck) {
+      let dir = Math.random();
+      if (dir > 0.6) {
+        if (dir < 0.7 && PointMonAbleToGoThere("up", enemy_i, enemy_j)) {
+          //up
+          enemy_i -= 1;
+        } else if (
+          dir < 0.8 &&
+          PointMonAbleToGoThere("right", enemy_i, enemy_j)
+        ) {
+          //right
+          enemy_j += 1;
+        } else if (
+          dir < 0.9 &&
+          PointMonAbleToGoThere("down", enemy_i, enemy_j)
+        ) {
+          //down
+          enemy_i += 1;
+        } else if (PointMonAbleToGoThere("left", enemy_i, enemy_j)) {
+          //left
+          enemy_j -= 1;
+        }
+      }
+    }
+    enemy_positions[index] = [enemy_i, enemy_j];
+    board2[enemy_i][enemy_j] = 5;
+  }
+}
 function findRandomEmptyCell(board) {
-  var i = Math.floor(Math.random() * 9 + 1);
-  var j = Math.floor(Math.random() * 9 + 1);
-  while (board[i][j] != 0) {
-    i = Math.floor(Math.random() * 9 + 1);
-    j = Math.floor(Math.random() * 9 + 1);
+  var i = Math.floor(Math.random() * (rows - 1) + 1);
+  var j = Math.floor(Math.random() * (cols - 1) + 1);
+  while (board[i][j] != 0 && i != point_monster[0] && j != point_monster[1]) {
+    i = Math.floor(Math.random() * (rows - 1) + 1);
+    j = Math.floor(Math.random() * (cols - 1) + 1);
   }
   return [i, j];
 }
 
 function GetKeyPressed() {
-  if (keysDown[38]) {
+  if (keysDown[37]) {
     //left
     return 1;
   }
-  if (keysDown[40]) {
-    //right
+  if (keysDown[38]) {
+    //up
     return 2;
   }
-  if (keysDown[37]) {
-    //up
+  if (keysDown[39]) {
+    //right
     return 3;
   }
-  if (keysDown[39]) {
+  if (keysDown[40]) {
     //down
     return 4;
   }
 }
 
 function Draw() {
-  elem_size = Math.min(width, height) / elem_in_axis;
+  elem_size = Math.floor(Math.min(width, height) / rows); //Todo CHANGE
   canvas.width = canvas.width; //clean board
   lblScore.value = score;
   lblTime.value = time_elapsed;
-  for (var i = 0; i < 10; i++) {
-    for (var j = 0; j < 10; j++) {
+  for (var i = 0; i < rows; i++) {
+    for (var j = 0; j < cols; j++) {
       var center = new Object();
-      center.x = i * elem_size + elem_size / 2;
-      center.y = j * elem_size + elem_size / 2;
-      if (board[i][j] == 2) {
+      center.x = j * elem_size + elem_size / 2;
+      center.y = i * elem_size + elem_size / 2;
+      if (board2[i][j] == 2) {
         context.beginPath();
         context.arc(
           center.x,
@@ -301,12 +371,12 @@ function Draw() {
         ); // circle
         context.fillStyle = "black"; //color
         context.fill();
-      } else if (board[i][j] == 1) {
+      } else if (board2[i][j] == 1) {
         context.beginPath();
         context.arc(center.x, center.y, elem_size / 4, 0, 2 * Math.PI); // circle
         context.fillStyle = "black"; //color
         context.fill();
-      } else if (board[i][j] == 4) {
+      } else if (board2[i][j] == 4) {
         context.beginPath();
         context.rect(
           center.x - elem_size / 2,
@@ -316,49 +386,230 @@ function Draw() {
         );
         context.fillStyle = "grey"; //color
         context.fill();
+      } else if (board2[i][j] == 5) {
+        context.beginPath();
+        context.rect(
+          center.x - elem_size / 2,
+          center.y - elem_size / 2,
+          elem_size,
+          elem_size
+        );
+        context.fillStyle = "red"; //color
+        context.fill();
+      } else if (board2[i][j] == 3) {
+        context.beginPath();
+        context.rect(
+          center.x - elem_size / 2,
+          center.y - elem_size / 2,
+          elem_size,
+          elem_size
+        );
+        context.fillStyle = "pink"; //color
+        context.fill();
       }
     }
   }
 }
 
 function UpdatePosition() {
-  board[shape.i][shape.j] = 0;
-  var x = GetKeyPressed();
-  if (x == 1) {
-    if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
-      shape.j--;
-    }
-  }
-  if (x == 2) {
-    if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
-      shape.j++;
-    }
-  }
-  if (x == 3) {
-    if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
-      shape.i--;
-    }
-  }
-  if (x == 4) {
-    if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
-      shape.i++;
-    }
-  }
+  movePlayer();
+  moveOthers();
 
   //i moved on the matrix
-  if (board[shape.i][shape.j] == 1) {
-    score++;
+
+  if (check_if_enemy_find()) {
+    window.clearInterval(interval);
+    window.alert("You Fucking Loserrr");
+    return;
   }
-  board[shape.i][shape.j] = 2;
   var currentTime = new Date();
   time_elapsed = (currentTime - start_time) / 1000;
   if (score >= 20 && time_elapsed <= 10) {
     pac_color = "green";
   }
+
   if (score == total_food) {
     window.clearInterval(interval);
     window.alert("Game completed");
   } else {
     Draw();
   }
+}
+function check_if_enemy_find() {
+  for (let index = num_of_enemies - 1; index >= 0; index--) {
+    enemy_i = enemy_positions[index][0];
+    enemy_j = enemy_positions[index][1];
+    i_diff = shape.i - enemy_i;
+    j_diff = shape.j - enemy_j;
+    if (i_diff === 0 && j_diff === 0) {
+      crash_place = [enemy_i, enemy_j];
+      console.log("Crash !! " + crash_place);
+      return true;
+    }
+  }
+  return false;
+}
+function moveOthers() {
+  deepcopy2d();
+  movePointMonster();
+  moveEnemies();
+}
+
+function deepcopy2d() {
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[0].length; col++) {
+      board2[row][col] = board[row][col];
+    }
+  }
+}
+function movePointMonster() {
+  if (count_point_monster > 0) {
+    if (shape.i == point_monster[0] && shape.j == point_monster[1]) {
+      score += 50;
+      count_point_monster--;
+      return;
+    }
+    // for now works only for one
+    let moveDecider = Math.random() * 100;
+    if (moveDecider > 40) {
+      //will move only 40% precent of time to allow pacman to catch him
+      let rand = Math.random() * 100;
+      if (rand < 25) {
+        if (PointMonAbleToGoThere("up", point_monster[0], point_monster[1]))
+          point_monster[0] -= 1;
+      } else if (rand < 50) {
+        if (PointMonAbleToGoThere("right", point_monster[0], point_monster[1]))
+          point_monster[1] += 1;
+      } else if (rand < 75) {
+        if (PointMonAbleToGoThere("down", point_monster[0], point_monster[1]))
+          point_monster[0] += 1;
+      } else {
+        if (PointMonAbleToGoThere("left", point_monster[0], point_monster[1]))
+          point_monster[1] -= 1;
+      }
+    }
+    board2[point_monster[0]][point_monster[1]] = 3;
+  }
+}
+
+function PointMonAbleToGoThere(dir, i, j) {
+  switch (dir) {
+    case "up":
+      if (
+        i > 0 &&
+        (board2[i - 1][j] == 0 ||
+          board2[i - 1][j] == 1 ||
+          board2[i - 1][j] == 2)
+      )
+        return true;
+      break;
+    case "right":
+      if (
+        j < cols - 1 &&
+        (board2[i][j + 1] == 0 ||
+          board2[i][j + 1] == 1 ||
+          board2[j + 1][j] == 2)
+      )
+        return true;
+      break;
+    case "down":
+      if (
+        i < rows - 1 &&
+        (board2[i + 1][j] == 0 ||
+          board2[i + 1][j] == 1 ||
+          board2[i + 1][j] == 2)
+      )
+        return true;
+      break;
+    case "left":
+      if (
+        j > 0 &&
+        (board2[i][j - 1] == 0 ||
+          board2[i][j - 1] == 1 ||
+          board2[j - 1][j] == 2)
+      )
+        return true;
+      break;
+  }
+}
+
+function putWalls(i, j) {
+  if (Math.random() < 0.08) {
+    board[i][j] = 4;
+    return true;
+  }
+  return false;
+}
+function gameBoardCreation() {
+  var cnt = rows * cols;
+  total_food = 30;
+  food_remain = total_food;
+  var pacman_remain = 1;
+  for (var i = 0; i < rows; i++) {
+    board[i] = new Array();
+    board2[i] = new Array();
+    //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
+    for (var j = 0; j < cols; j++) {
+      if (!putWalls(i, j)) {
+        var randomNum = Math.random();
+        if (randomNum <= (1.0 * food_remain) / cnt) {
+          food_remain--;
+          board[i][j] = 1;
+        } else if (
+          pacman_remain === 1 &&
+          randomNum < (1.0 * (pacman_remain + food_remain)) / cnt
+        ) {
+          //Put the pacman itself
+          shape.i = i;
+          shape.j = j;
+          pacman_remain--;
+          board[i][j] = 2;
+        } else {
+          board[i][j] = 0;
+        }
+        cnt--;
+      }
+    }
+  }
+  while (food_remain > 0) {
+    var emptyCell = findRandomEmptyCell(board);
+    board[emptyCell[0]][emptyCell[1]] = 1;
+    food_remain--;
+  }
+  while (pacman_remain > 0) {
+    var emptyCell = findRandomEmptyCell(board);
+    shape.i = emptyCell[0];
+    shape.j = emptyCell[1];
+    pacman_remain--;
+  }
+}
+function movePlayer() {
+  board[shape.i][shape.j] = 0;
+  var x = GetKeyPressed();
+
+  if (x == 1) {
+    //left
+    if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
+      shape.j--;
+    }
+  } else if (x == 2) {
+    //up
+    if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
+      shape.i--;
+    }
+  } else if (x == 3) {
+    //right
+    if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+      shape.j++;
+    }
+  } else if (x == 4) {
+    //down
+    if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+      shape.i++;
+    }
+  }
+  if (board2[shape.i][shape.j] == 1) {
+    score++;
+  }
+  board[shape.i][shape.j] = 2;
 }
