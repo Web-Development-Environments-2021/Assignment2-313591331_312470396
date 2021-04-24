@@ -38,7 +38,9 @@ var colorJson = {"green":"green","yellow":"yellow","purple":"purple","blue":"blu
 function screenSwitch(divToShow) {
 	resetView()
 	$(divToShow).show();
-  $("#board").hide();
+  if (divToShow=="#game"){
+  context = canvas.getContext("2d");
+  Start();}
 }
 
 
@@ -123,8 +125,6 @@ $(document).ready(function () {
   resetView();
   $("#welcome").show();
   initSelector()
-  context = canvas.getContext("2d");
-  Start();
 
   $("#login-button").click(function(){
     console.log("Login!")
