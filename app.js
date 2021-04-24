@@ -12,10 +12,15 @@ var height;
 var elem_in_axis = 10;
 var dataBase = {'k':'k'} // <username:password>
 var input;
+var arrowKey = {"37":"left","38":"up","39":"right","40":"down"}
+var controls = {"left":37,"up":38,"right":39,"down":40}
+var keyConfigListener; 
+var colorJson = {"green":"green","yellow":"yellow","purple":"purple","blue":"blue"}
 
 function screenSwitch(divToShow) {
 	resetView()
 	$(divToShow).show();
+  $("#board").hide();
 }
 
 function about(){
@@ -28,6 +33,7 @@ function resetView(){
 	$("#register").hide();
 	$("#login").hide();
   $("#welcome").hide();
+  $("#config").hide();
 }
 
 function validatePassword(password){
@@ -60,10 +66,44 @@ function emptyInput(){
   return alertMsg;
 }
 
+function initSelector(){
+  
+  for (var i=40;i<91;i++){
+    $("#food-config").append("<option value="+i+">"+i+"</option>")
+  }
+  
+  for (var key in colorJson){
+    $(".color-input").append("<option value="+colorJson[key]+">"+key+"</option>")
+  }
+}
+
+function keyConfig(keyToConfig) {
+  $("button").prop("disabled",true)
+  console.log("Key " + keyToConfig)
+  removeEventListener("keydown",keyConfig)
+  let keyValue;
+  var keyPress = false;
+  keyConfigListener = addEventListener(
+    "keydown",
+    function (e) {
+      if (!keyPress)
+      {
+        keyValue = e.keyCode;
+        const label = arrowKey[keyValue] ? arrowKey[keyValue] : String.fromCodePoint(keyValue)
+        $("#"+keyToConfig+"-lbl").text(label);        
+        console.log("value = " + keyValue);
+        controls[keyToConfig] = keyValue
+        $("button").prop("disabled",false)
+      }
+      keyPress = true
+    });
+};
+
 
 $(document).ready(function () {
   resetView();
   $("#welcome").show();
+  initSelector()
   context = canvas.getContext("2d");
   Start();
 
@@ -98,6 +138,14 @@ $(document).ready(function () {
     resetView();
   })
 
+  $("#start-btn").click(function(){
+    var alertMsg = "";
+    var input = "";
+    $("#config").hide();
+    $("#board").show();
+
+    })
+
   $("#dialog").dialog({
     height:300,
     width:500,
@@ -110,8 +158,19 @@ $(document).ready(function () {
     }
 });
 
+  $('select').change(function() {
+    var otherSelects = $('select').not(this);
+    var oldValue = $(this).data('old');
+    if (oldValue)
+      otherSelects.find('option[value=' + oldValue + ']').removeAttr('disabled');
+    if (this.value)
+      otherSelects.find('option[value=' + this.value + ']').attr('disabled', 'disabled');
+    $(this).data('old', this.value);
+  });
 
 });
+
+
 
 function Start() {
   //4 is wall
