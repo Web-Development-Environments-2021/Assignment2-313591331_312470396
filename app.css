@@ -106,3 +106,68 @@ h1,h2,h3{
   color: #fff;
 }
 
+#key-config-container{
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 3%;
+  width: 60%;
+}
+
+.key-config-container{
+  margin-right: 2vw;
+}
+
+#color-config-container{
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3%;
+}
+
+.color-config-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: center;
+  font-size: 3vh;
+}
+
+.color-input{
+  border:none;
+  margin-left:4px;
+  border-radius: 6px;
+  padding-left: 5px;
+  font-size: 3vh;
+  font-weight: bold;
+  height: 4vh;
+  width: 8vw
+}
+
+.key-config-btn{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.config-num{
+  border:none;
+  border-radius: 6px;
+  padding-left: 5px;
+  font-size: 3vh;
+  font-weight: bold;
+  height: 4vh;
+  width: 5vw
+}
+
+#numeric-config-container{
+  margin-bottom: 3%;
+  font-size: 3vh;
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+
+}
+
+
+
+
+
