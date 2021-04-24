@@ -38,13 +38,13 @@ body {
   margin-top: 0px;
 }
 
-#button-container{
+.button-container{
   margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-button{
+.app-btn{
   margin: 0 20px 0 20px ;
   padding: 10px 30px;
   font-size: large;
@@ -55,7 +55,7 @@ button{
   transition: 0.4s;
   /* width: fit-content; */
 }
-button:hover{
+.app-btn:hover{
   background-color: #a8dadc;
 }
 
@@ -81,3 +81,28 @@ button:hover{
   margin-top:15vh;
 
 }
+
+
+#dialog-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+#close-dialog{
+  height: fit-content;
+  align-self: center;
+
+}
+
+h1,h2,h3{
+  margin:2px 0px 2px 0px;
+}
+
+#welcome{
+  margin-top:10%;
+  display:flex;
+  align-content: center;
+  justify-content: space-around;
+  color: #fff;
+}
+

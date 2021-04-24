@@ -11,19 +11,23 @@ var width;
 var height;
 var elem_in_axis = 10;
 var dataBase = {'k':'k'} // <username:password>
-var auth = false;
 var input;
-console.log("render?")
 
 function screenSwitch(divToShow) {
 	resetView()
 	$(divToShow).show();
 }
 
+function about(){
+  console.log("ABOUT");
+  $("#dialog").dialog("open")
+}
+
 function resetView(){
 	$("#game").hide();
 	$("#register").hide();
 	$("#login").hide();
+  $("#welcome").hide();
 }
 
 function validatePassword(password){
@@ -59,6 +63,7 @@ function emptyInput(){
 
 $(document).ready(function () {
   resetView();
+  $("#welcome").show();
   context = canvas.getContext("2d");
   Start();
 
@@ -92,6 +97,20 @@ $(document).ready(function () {
     alert("User Created")
     resetView();
   })
+
+  $("#dialog").dialog({
+    height:300,
+    width:500,
+    autoOpen: false,
+    modal: true,
+    open: function(){
+        $('.ui-widget-overlay').bind('click',function(){
+            $('#dialog').dialog('close');
+        })
+    }
+});
+
+
 });
 
 function Start() {

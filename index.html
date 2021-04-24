@@ -4,8 +4,11 @@
 		<link rel="stylesheet" type="text/css" href="app.css" />
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+		<link  href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
 		<script src="./jquery-3.4.1.slim.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 		<div class="head-container">
 			<div class="c">
@@ -17,10 +20,21 @@
 		</div>
 	</head>
 	<body>
-		<div id="button-container">
-			<button   onclick="screenSwitch('#game')">Game</button>
-			<button  onclick="screenSwitch('#register')">Register</button>
-			<button  onclick="screenSwitch('#login')">Log In</button>
+		<div class="button-container">
+			<button class="app-btn" onclick="screenSwitch('#game')">Game (button need to be removed)</button>
+			<button class="app-btn" onclick="screenSwitch('#welcome')">Welcome</button>
+			<button class="app-btn" onclick="screenSwitch('#register')">Register</button>
+			<button class="app-btn" onclick="screenSwitch('#login')">Log In</button>
+			<button class="app-btn" onclick="about()">About</button>
+		</div>
+		<div id="welcome">
+			<div id="class-container">
+				<h1>Welcome PACMAN</h1>
+				<p>if you already have account click <l>Login</l> otherwise click <l>Register</l></p>
+				<button class="app-btn" onclick="screenSwitch('#register')">Register</button>
+				<button class="app-btn" onclick="screenSwitch('#login')">Log In</button>
+			</div>
+
 		</div>
 		<div id="game">
 			<div id="score">
@@ -37,7 +51,7 @@
 			<div id="login-form" > 
 				<input class="login-input" type="text" placeholder="Enter User Name" id="user-name" name="name">
 				<input class="login-input" type="password" placeholder="Enter Password" id="password" name="password">
-				<button id="login-button" >Login</button>
+				<button class="app-btn" id="login-button" >Login</button>
 			</div>
 		</div>
 		<div class="form-container" id="register">
@@ -47,7 +61,18 @@
 				<input id="birth-date" class="login-input" type="date" >
 				<input id="user-name-reg" class="login-input" type="text" placeholder="Choose User Name">
 				<input id="password-reg" class="login-input" type="password" placeholder="Enter Password" id="password" name="password">
-				<button id="register-button" >Register</button>
+				<button class="app-btn" id="register-button" >Register</button>
+			</div>
+		</div>
+		<div title="About" class="about-contianer" id="dialog">
+			<!-- <div id="dialog-header">
+			</div> -->
+			 <div id="dialog-content">
+				<p>Eden Berdgo and Barak Falach </p>
+				<h3><i>issue</i></h3>
+				<p>we had some trouble with:</p>
+				<h3><i>JQuery</i></h3>
+				<p>we have used the following j query templates:...</p>
 			</div>
 		</div>
 	</body>
