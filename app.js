@@ -12,7 +12,8 @@ var height;
 var elem_in_axis = 10;
 var num_of_enemies = 1;
 var enemy_positions = {};
-var last_enemy_positions;
+var last_enemy_positions = [0, 0, 0, 0];
+var board_for_enemies;
 
 function screenSwitch(divToShow) {
   resetView();
@@ -29,7 +30,6 @@ $(document).ready(function () {
   resetView();
   context = canvas.getContext("2d");
   num_of_enemies = 4; //remove !
-  last_enemy_positions = Array[num_of_enemies];
   Start();
 });
 
@@ -78,7 +78,8 @@ function Start() {
       }
     }
   }
-  addEnemies(board);
+  deepcopy2d();
+  addEnemies();
   while (food_remain > 0) {
     var emptyCell = findRandomEmptyCell(board);
     board[emptyCell[0]][emptyCell[1]] = 1;
@@ -101,8 +102,7 @@ function Start() {
   );
   interval = setInterval(UpdatePosition, 250);
 }
-function addEnemies(board) {
-  console.log(board);
+function addEnemies() {
   remain_enemies = num_of_enemies - 1;
   enemy_positions = {
     0: [0, 0],
@@ -112,7 +112,6 @@ function addEnemies(board) {
   };
   while (remain_enemies >= 0) {
     pos = enemy_positions[remain_enemies];
-    console.log(pos);
     if (board[pos[0]][pos[1]] == 1) {
       replace_cell = findRandomEmptyCell(board);
       board[replace_cell[0]][replace_cell[1]] = 1;
@@ -125,7 +124,7 @@ function addEnemies(board) {
   console.log(board);
 }
 
-function moveEnemies(board) {
+function moveEnemies() {
   for (let index = num_of_enemies - 1; index >= 0; index--) {
     enemy_i = enemy_positions[index][0];
     enemy_j = enemy_positions[index][1];
@@ -134,17 +133,36 @@ function moveEnemies(board) {
     if (i_diff > j_diff) {
       //move x axis
       distance = enemy_i - shape.i;
+      //enemy now in enemy_i, enemy_j
+      if (distance > 0) {
+        //move up
+        board[enemy_i][enemy_j] = last_enemy_positions[index];
+        last_enemy_positions[index] = board[enemy_i - 1][enemy_j]; //for next iter
+        enemy_positions[index] = [enemy_i - 1, enemy_j];
+        board[enemy_i - 1][enemy_j] = 5;
+      } else if (distance < 0) {
+        // move down
+        board[enemy_i][enemy_j] = last_enemy_positions[index];
+        last_enemy_positions[index] = board[enemy_i + 1][enemy_j]; //for next iter
+        enemy_positions[index] = [enemy_i + 1, enemy_j];
+        board[enemy_i + 1][enemy_j] = 5;
+      }
+    } else {
+      //move x axis
+      distance = enemy_j - shape.j;
+      //enemy now in enemy_i, enemy_j
       if (distance > 0) {
         //move left
         board[enemy_i][enemy_j] = last_enemy_positions[index];
-		last_enemy_positions[index] =
-        board[enemy_i - 1][enemy_j] = 5;
-        enemy_positions[index] = [enemy_i - 1, enemy_j];
+        last_enemy_positions[index] = board[enemy_i][enemy_j - 1]; //for next iter, where he about to go
+        enemy_positions[index] = [enemy_i, enemy_j - 1];
+        board[enemy_i][enemy_j - 1] = 5;
       } else if (distance < 0) {
-        // move right
-        board[enemy_i][enemy_j] = 0;
-        board[enemy_i + 1][enemy_j] = 5;
-        enemy_positions[index] = [enemy_i + 1, enemy_j];
+        // move down
+        board[enemy_i][enemy_j] = last_enemy_positions[index];
+        last_enemy_positions[index] = board[enemy_i][enemy_j + 1]; //for next iter
+        enemy_positions[index] = [enemy_i, enemy_j + 1];
+        board[enemy_i][enemy_j + 1] = 5;
       }
     }
   }
@@ -246,8 +264,8 @@ function Draw() {
 }
 
 function UpdatePosition() {
-  moveEnemies(board);
-
+  board[shape.i][shape.j] = 0;
+  moveEnemies();
   var x = GetKeyPressed();
   if (x == 1) {
     if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
@@ -280,10 +298,34 @@ function UpdatePosition() {
   if (score >= 20 && time_elapsed <= 10) {
     pac_color = "green";
   }
+  if (check_if_enemy_find()) {
+    window.clearInterval(interval);
+    window.alert("You Fucking Loserrr");
+  }
   if (score == total_food) {
     window.clearInterval(interval);
     window.alert("Game completed");
   } else {
     Draw();
+  }
+}
+function check_if_enemy_find() {
+  for (let index = num_of_enemies - 1; index >= 0; index--) {
+    enemy_i = enemy_positions[index][0];
+    enemy_j = enemy_positions[index][1];
+    i_diff = shape.i - enemy_i;
+    j_diff = shape.j - enemy_j;
+    if (i_diff === 0 && j_diff === 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function deepcopy2d() {
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[0].length; col++) {
+      board2[row][col] = board[row][col];
+    }
   }
 }
