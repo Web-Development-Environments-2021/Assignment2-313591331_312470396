@@ -21,6 +21,9 @@ var rows;
 var cols;
 var time = 250;
 var crash_place = [,];
+var pacman_direction = 0;
+var life;
+var cnt;
 //0 empty
 //1 food
 //2 packman
@@ -28,14 +31,20 @@ var crash_place = [,];
 //4 is wall
 //5 enemy
 var elem_in_axis = 10;
-var dataBase = {'k':'k'} // <username:password>
+var dataBase = { k: "k" }; // <username:password>
 var input;
-var arrowKey = {"37":"left","38":"up","39":"right","40":"down"}
-var controls = {"left":37,"up":38,"right":39,"down":40}
-var keyConfigListener; 
-var colorJson = {"green":"green","yellow":"yellow","purple":"purple","blue":"blue"}
+var arrowKey = { 37: "left", 38: "up", 39: "right", 40: "down" };
+var controls = { left: 37, up: 38, right: 39, down: 40 };
+var keyConfigListener;
+var colorJson = {
+  green: "green",
+  yellow: "yellow",
+  purple: "purple",
+  blue: "blue",
+};
 
 function screenSwitch(divToShow) {
+
 	resetView()
 	$(divToShow).show();
   if (divToShow=="#game"){
@@ -43,58 +52,75 @@ function screenSwitch(divToShow) {
   Start();}
 }
 
-
-function about(){
+function about() {
   console.log("ABOUT");
-  $("#dialog").dialog("open")
+  $("#dialog").dialog("open");
 }
 
-function resetView(){
-	$("#game").hide();
-	$("#register").hide();
-	$("#login").hide();
+function resetView() {
+  $("#game").hide();
+  $("#register").hide();
+  $("#login").hide();
   $("#welcome").hide();
   $("#config").hide();
 }
 
-function validatePassword(password){
-  let alertMsg=""
-  password.length>5? alertMsg+="" : alertMsg += "Password must contain more than 5 Characters.\n"
-  password.match(/[A-z]/)? alertMsg+="": alertMsg += "Password must have at least one Character.\n";
-  password.match(/\d/)? alertMsg +="" : alertMsg+= "Password must have at least one Number.\n"
+function validatePassword(password) {
+  let alertMsg = "";
+  password.length > 5
+    ? (alertMsg += "")
+    : (alertMsg += "Password must contain more than 5 Characters.\n");
+  password.match(/[A-z]/)
+    ? (alertMsg += "")
+    : (alertMsg += "Password must have at least one Character.\n");
+  password.match(/\d/)
+    ? (alertMsg += "")
+    : (alertMsg += "Password must have at least one Number.\n");
   return alertMsg;
 }
 
-function validateName(name){
-  let alertMsg="";
-  name.match(/\d/)? alertMsg+= "First and Last Name can't contain numbers.\n":alertMsg+=""
+function validateName(name) {
+  let alertMsg = "";
+  name.match(/\d/)
+    ? (alertMsg += "First and Last Name can't contain numbers.\n")
+    : (alertMsg += "");
   return alertMsg;
 }
 
-function validateEmail(email){
-  let alertMsg = ""
+function validateEmail(email) {
+  let alertMsg = "";
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  re.test(String(email).toLowerCase())? alertMsg+="" : alertMsg += "Must enter a Valid Email.\n"
+  re.test(String(email).toLowerCase())
+    ? (alertMsg += "")
+    : (alertMsg += "Must enter a Valid Email.\n");
   return alertMsg;
 }
 
-function emptyInput(){
-  let alertMsg=""
-  if($("#full-name").val() && $("#email").val() && 
-  $("#birth-date").val() && $("#user-name-reg").val() && 
-  $("#password-reg").val()) {alertMsg+=""}
-  else{alertMsg+= "All fields must be field.\n"}
-  return alertMsg;
-}
-
-function initSelector(){
-  
-  for (var i=40;i<91;i++){
-    $("#food-config").append("<option value="+i+">"+i+"</option>")
+function emptyInput() {
+  let alertMsg = "";
+  if (
+    $("#full-name").val() &&
+    $("#email").val() &&
+    $("#birth-date").val() &&
+    $("#user-name-reg").val() &&
+    $("#password-reg").val()
+  ) {
+    alertMsg += "";
+  } else {
+    alertMsg += "All fields must be field.\n";
   }
-  
-  for (var key in colorJson){
-    $(".color-input").append("<option value="+colorJson[key]+">"+key+"</option>")
+  return alertMsg;
+}
+
+function initSelector() {
+  for (var i = 40; i < 91; i++) {
+    $("#food-config").append("<option value=" + i + ">" + i + "</option>");
+  }
+
+  for (var key in colorJson) {
+    $(".color-input").append(
+      "<option value=" + colorJson[key] + ">" + key + "</option>"
+    );
   }
 }
 
@@ -121,78 +147,79 @@ function keyConfig(keyToConfig) {
     });
 };
 
-
 $(document).ready(function () {
   resetView();
   $("#welcome").show();
   initSelector()
-
-  $("#login-button").click(function(){
-    console.log("Login!")
+  $("#login-button").click(function () {
+    console.log("Login!");
     var name = $("#user-name").val();
     var password = $("#password").val();
-    if (dataBase[name] == password){
-      screenSwitch("#game")
-      return
+    if (dataBase[name] == password) {
+      screenSwitch("#game");
+      return;
     }
-    alert("User Name or Password is incorrect")
-  })
+    alert("User Name or Password is incorrect");
+  });
 
-  $("#register-button").click(function(){
-    console.log("Register!")
-    var alertMsg = ""
-    var input= ""
+  $("#register-button").click(function () {
+    console.log("Register!");
+    var alertMsg = "";
+    var input = "";
     alertMsg += emptyInput();
     input = $("#password-reg").val();
-    alertMsg+=validatePassword(input);
+    alertMsg += validatePassword(input);
     input = $("#full-name").val();
-    alertMsg+=validateName(input);
+    alertMsg += validateName(input);
     input = $("#email").val();
-    alertMsg+=validateEmail(input);
-    if (alertMsg != ""){
+    alertMsg += validateEmail(input);
+    if (alertMsg != "") {
       alert(alertMsg);
       return;
     }
     dataBase[$("#user-name-reg").val()] = $("#password-reg").val();
-    alert("User Created")
+    alert("User Created");
     resetView();
-  })
+  });
 
-  $("#start-btn").click(function(){
+  $("#start-btn").click(function () {
     var alertMsg = "";
     var input = "";
     $("#config").hide();
     $("#board").show();
-
-    })
-
-  $("#dialog").dialog({
-    height:300,
-    width:500,
-    autoOpen: false,
-    modal: true,
-    open: function(){
-        $('.ui-widget-overlay').bind('click',function(){
-            $('#dialog').dialog('close');
-        })
-    }
-});
-
-  $('select').change(function() {
-    var otherSelects = $('select').not(this);
-    var oldValue = $(this).data('old');
-    if (oldValue)
-      otherSelects.find('option[value=' + oldValue + ']').removeAttr('disabled');
-    if (this.value)
-      otherSelects.find('option[value=' + this.value + ']').attr('disabled', 'disabled');
-    $(this).data('old', this.value);
   });
 
+  $("#dialog").dialog({
+    height: 300,
+    width: 500,
+    autoOpen: false,
+    modal: true,
+    open: function () {
+      $(".ui-widget-overlay").bind("click", function () {
+        $("#dialog").dialog("close");
+      });
+    },
+  });
+
+  $("select").change(function () {
+    var otherSelects = $("select").not(this);
+    var oldValue = $(this).data("old");
+    if (oldValue)
+      otherSelects
+        .find("option[value=" + oldValue + "]")
+        .removeAttr("disabled");
+    if (this.value)
+      otherSelects
+        .find("option[value=" + this.value + "]")
+        .attr("disabled", "disabled");
+    $(this).data("old", this.value);
+  });
 });
 
-
-
 function Start() {
+  life = 5;
+  context.canvas.width = window.innerWidth;
+  context.canvas.height = window.innerHeight * 0.7;
   num_of_enemies = 1; //remove !
   count_point_monster = 1;
   rows = 10; //Remove TODO
@@ -205,12 +232,7 @@ function Start() {
   score = 0;
   pac_color = "yellow";
   start_time = new Date();
-  enemy_positions = {
-    0: [0, 0],
-    1: [0, cols - 1],
-    2: [rows - 1, 0],
-    3: [rows - 1, cols - 1],
-  };
+  setBadMonsters();
   gameBoardCreation();
   addEnemies();
   keysDown = {};
@@ -249,7 +271,8 @@ function moveEnemies() {
     i_diff = Math.abs(shape.i - enemy_i);
     j_diff = Math.abs(shape.j - enemy_j);
     let wall_stuck = false;
-    const move = Math.random() > 0.15 ? true : false;
+    //move is the rate for them to move.. the less enemies,the more "speed";
+    const move = Math.random() > 0.18 * num_of_enemies ? true : false;
     if (!move) {
       board2[enemy_i][enemy_j] = 5;
       continue;
@@ -345,6 +368,7 @@ function Draw() {
   canvas.width = canvas.width; //clean board
   lblScore.value = score;
   lblTime.value = time_elapsed;
+  lblLife.value = life;
   for (var i = 0; i < rows; i++) {
     for (var j = 0; j < cols; j++) {
       var center = new Object();
@@ -356,16 +380,32 @@ function Draw() {
           center.x,
           center.y,
           elem_size / 2,
-          0.1 * Math.PI,
-          1.85 * Math.PI
+          0.1 * Math.PI + (pacman_direction * Math.PI) / 2,
+          1.85 * Math.PI + (pacman_direction * Math.PI) / 2
         ); // half circle
         context.lineTo(center.x, center.y);
         context.fillStyle = pac_color; //color
         context.fill();
         context.beginPath();
+        let lowEye =
+          pacman_direction == 0
+            ? 0
+            : pacman_direction == 1
+            ? elem_size / 3
+            : pacman_direction == 2
+            ? 0
+            : elem_size / 8;
+        let rightEye =
+          pacman_direction == 0
+            ? 0
+            : pacman_direction == 1
+            ? elem_size / 6
+            : pacman_direction == 2
+            ? -elem_size / 6
+            : elem_size / 6;
         context.arc(
-          center.x + elem_size / 12,
-          center.y - elem_size / 4,
+          center.x + elem_size / 12 + rightEye,
+          center.y - elem_size / 4 + lowEye,
           elem_size / 12,
           0,
           2 * Math.PI
@@ -419,9 +459,17 @@ function UpdatePosition() {
   //i moved on the matrix
 
   if (check_if_enemy_find()) {
-    window.clearInterval(interval);
-    window.alert("You Fucking Loserrr");
-    return;
+    score -= 10;
+    life -= 1;
+    console.log("Crash !! " + crash_place);
+    if (life == 0) {
+      window.clearInterval(interval);
+      window.alert("You Fucking Loserrr");
+      return;
+    } else {
+      setPacman();
+      setBadMonsters();
+    }
   }
   var currentTime = new Date();
   time_elapsed = (currentTime - start_time) / 1000;
@@ -443,8 +491,8 @@ function check_if_enemy_find() {
     i_diff = shape.i - enemy_i;
     j_diff = shape.j - enemy_j;
     if (i_diff === 0 && j_diff === 0) {
+      board[shape.i][shape.j] = 0;
       crash_place = [enemy_i, enemy_j];
-      console.log("Crash !! " + crash_place);
       return true;
     }
   }
@@ -542,7 +590,7 @@ function putWalls(i, j) {
   return false;
 }
 function gameBoardCreation() {
-  var cnt = rows * cols;
+  cnt = rows * cols;
   total_food = 30;
   food_remain = total_food;
   var pacman_remain = 1;
@@ -589,22 +637,22 @@ function movePlayer() {
   var x = GetKeyPressed();
 
   if (x == 1) {
-    //left
     if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
+      pacman_direction = 2;
       shape.j--;
     }
   } else if (x == 2) {
-    //up
     if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
+      pacman_direction = 3;
       shape.i--;
     }
   } else if (x == 3) {
-    //right
+    pacman_direction = 0;
     if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
       shape.j++;
     }
   } else if (x == 4) {
-    //down
+    pacman_direction = 1;
     if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
       shape.i++;
     }
@@ -613,4 +661,31 @@ function movePlayer() {
     score++;
   }
   board[shape.i][shape.j] = 2;
+}
+
+function updateCenter(dir) {
+  switch (dir) {
+    case 1:
+      center.y += elem_size / 5;
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    default:
+      break;
+  }
+}
+function setBadMonsters() {
+  enemy_positions = {
+    0: [0, 0],
+    1: [0, cols - 1],
+    2: [rows - 1, 0],
+    3: [rows - 1, cols - 1],
+  };
+}
+function setPacman() {
+  var emptyCell = findRandomEmptyCell(board);
+  shape.i = emptyCell[0];
+  shape.j = emptyCell[1];
 }
