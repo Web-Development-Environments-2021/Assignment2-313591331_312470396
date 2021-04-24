@@ -27,22 +27,109 @@ var crash_place = [,];
 //3 50points "point_monster"
 //4 is wall
 //5 enemy
+var elem_in_axis = 10;
+var dataBase = {'k':'k'} // <username:password>
+var input;
 
 function screenSwitch(divToShow) {
   resetView();
   $(divToShow).show();
 }
 
-function resetView() {
-  $("#game").hide();
-  $("#register").hide();
-  $("#login").hide();
+
+function about(){
+  console.log("ABOUT");
+  $("#dialog").dialog("open")
 }
+
+function resetView(){
+	$("#game").hide();
+	$("#register").hide();
+	$("#login").hide();
+  $("#welcome").hide();
+}
+
+function validatePassword(password){
+  let alertMsg=""
+  password.length>5? alertMsg+="" : alertMsg += "Password must contain more than 5 Characters.\n"
+  password.match(/[A-z]/)? alertMsg+="": alertMsg += "Password must have at least one Character.\n";
+  password.match(/\d/)? alertMsg +="" : alertMsg+= "Password must have at least one Number.\n"
+  return alertMsg;
+}
+
+function validateName(name){
+  let alertMsg="";
+  name.match(/\d/)? alertMsg+= "First and Last Name can't contain numbers.\n":alertMsg+=""
+  return alertMsg;
+}
+
+function validateEmail(email){
+  let alertMsg = ""
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  re.test(String(email).toLowerCase())? alertMsg+="" : alertMsg += "Must enter a Valid Email.\n"
+  return alertMsg;
+}
+
+function emptyInput(){
+  let alertMsg=""
+  if($("#full-name").val() && $("#email").val() && 
+  $("#birth-date").val() && $("#user-name-reg").val() && 
+  $("#password-reg").val()) {alertMsg+=""}
+  else{alertMsg+= "All fields must be field.\n"}
+  return alertMsg;
+}
+
 
 $(document).ready(function () {
   resetView();
+  $("#welcome").show();
   context = canvas.getContext("2d");
   Start();
+
+  $("#login-button").click(function(){
+    console.log("Login!")
+    var name = $("#user-name").val();
+    var password = $("#password").val();
+    if (dataBase[name] == password){
+      screenSwitch("#game")
+      return
+    }
+    alert("User Name or Password is incorrect")
+  })
+
+  $("#register-button").click(function(){
+    console.log("Register!")
+    var alertMsg = ""
+    var input= ""
+    alertMsg += emptyInput();
+    input = $("#password-reg").val();
+    alertMsg+=validatePassword(input);
+    input = $("#full-name").val();
+    alertMsg+=validateName(input);
+    input = $("#email").val();
+    alertMsg+=validateEmail(input);
+    if (alertMsg != ""){
+      alert(alertMsg);
+      return;
+    }
+    dataBase[$("#user-name-reg").val()] = $("#password-reg").val();
+    alert("User Created")
+    resetView();
+  })
+
+  $("#dialog").dialog({
+    height:300,
+    width:500,
+    autoOpen: false,
+    modal: true,
+    open: function(){
+        $('.ui-widget-overlay').bind('click',function(){
+            $('#dialog').dialog('close');
+        })
+    }
+});
+
+
 });
 
 function Start() {

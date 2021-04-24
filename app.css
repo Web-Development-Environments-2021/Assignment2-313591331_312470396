@@ -1,5 +1,11 @@
 body {
   padding-top: 5vh;
+  background-image: linear-gradient(rgba(69,123,157,0.7),rgba(69,123,157,0.7)) , url("assets/2.jpeg");
+  background-size: cover;
+}
+
+*{
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* canvas {
@@ -13,11 +19,12 @@ body {
   flex-direction: row;
   align-items: center;
   height: 6vh;
-  color: rgb(183, 163, 255);
+  color: #1d3557;
   left: 0;
   top: 0;
   width: 100%;
-  background-color: #2a2a72;
+  background:linear-gradient(#a8dadc,#75a1a1);
+  /* background-color: #a8dadc; */
   /* background-image: linear-gradient(315deg, #009ffd 74%, #2a2a72 50%); */
   overflow: hidden;
   font-size: 4vh;
@@ -30,3 +37,72 @@ body {
   font-size: 17px;
   margin-top: 0px;
 }
+
+.button-container{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.app-btn{
+  margin: 0 20px 0 20px ;
+  padding: 10px 30px;
+  font-size: large;
+  border-radius: 200px;
+  background-color: #75a1a1;
+  color:#fff;
+  border:none;
+  transition: 0.4s;
+  /* width: fit-content; */
+}
+.app-btn:hover{
+  background-color: #a8dadc;
+}
+
+#login-form{
+  display: flex;
+  flex-direction: column;
+  width:100vw;
+  align-items: center;
+}
+
+.login-input{
+  border:none;
+  border-radius: 6px;
+  padding-left: 5px;
+  margin-bottom:4vh;
+  font-size: 3vh;
+  font-weight: bold;
+  height: 4vh;
+  width: 20vw
+}
+
+.form-container{
+  margin-top:15vh;
+
+}
+
+
+#dialog-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+#close-dialog{
+  height: fit-content;
+  align-self: center;
+
+}
+
+h1,h2,h3{
+  margin:2px 0px 2px 0px;
+}
+
+#welcome{
+  margin-top:10%;
+  display:flex;
+  align-content: center;
+  justify-content: space-around;
+  color: #fff;
+}
+
