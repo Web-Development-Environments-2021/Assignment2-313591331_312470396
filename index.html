@@ -10,6 +10,10 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+		<script type="text/javascript" src="./game.js"></script>
+		<script type="text/javascript" src="./validation.js"></script>
+		<script type="text/javascript" src="./boardInitialize.js"></script>
+		<script type="text/javascript" src="./drawBoard.js"></script>
 		<div class="head-container">
 			<div class="c">
                 <img src="assets/pacman_logo.png" width="36" height="36"/>
@@ -43,13 +47,13 @@
 				<label for="lblScore">SCORE:</label>
 				<input id="lblScore" type="text" />
 			</div>
-			<div id="time">
-				<label for="lblTime">TIME:</label>
-				<input id="lblTime" type="text" />
-			</div>
 			<div id="life">
 				<label for="lblLife">Life:</label>
 				<input id="lblLife" type="text" />
+			</div>
+			<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
 			</div>
 		</div>
 			<canvas id="canvas" height="500" width="500"></canvas>				
@@ -136,12 +140,13 @@
 			<!-- <div id="dialog-header">
 			</div> -->
 			 <div id="dialog-content">
-				<p>Eden Berdgo and Barak Falach </p>
+				<p>Eden Berdugo and Barak Falach </p>
 				<h3><i>issue</i></h3>
 				<p>we had some trouble with:</p>
 				<h3><i>JQuery</i></h3>
 				<p>we have used the following j query templates:...</p>
 			</div>
 		</div>
+		<footer class="footer" >The game built with HTML, javascript, JQuery. Be Careful from covid-19(monster and virus).contact: <a href = "mailto: berdugoe@post.bgu.ac.il">Email</a></footer>
 	</body>
 </html>

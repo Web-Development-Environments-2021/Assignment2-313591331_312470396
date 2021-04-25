@@ -1,12 +1,15 @@
 body {
   padding-top: 5vh;
-  background-image: linear-gradient(rgba(69,123,157,0.7),rgba(69,123,157,0.7)) , url("assets/2.jpeg");
+  background-image: linear-gradient(
+      rgba(69, 123, 157, 0.7),
+      rgba(69, 123, 157, 0.7)
+    ),
+    url("assets/2.jpeg");
   background-size: cover;
-  y
 }
 
-*{
-  font-family: 'Montserrat', sans-serif;
+* {
+  font-family: "Montserrat", sans-serif;
 }
 
 /* canvas {
@@ -24,7 +27,7 @@ body {
   left: 0;
   top: 0;
   width: 100%;
-  background:linear-gradient(#a8dadc,#75a1a1);
+  background: linear-gradient(#a8dadc, #75a1a1);
   /* background-color: #a8dadc; */
   /* background-image: linear-gradient(315deg, #009ffd 74%, #2a2a72 50%); */
   overflow: hidden;
@@ -39,81 +42,81 @@ body {
   margin-top: 0px;
 }
 
-.button-container{
-  margin-top: 20px;
+.button-container {
+  margin-top: 1vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.app-btn{
-  margin: 0 20px 0 20px ;
+.app-btn {
+  margin: 0 20px 4vh 20px;
   padding: 10px 30px;
   font-size: large;
   border-radius: 200px;
   background-color: #75a1a1;
-  color:#fff;
-  border:none;
+  color: #fff;
+  border: none;
   transition: 0.4s;
   width: fit-content;
   height: fit-content;
 }
-.app-btn:hover{
+.app-btn:hover {
   background-color: #a8dadc;
 }
-.app-btn:disabled{
+.app-btn:disabled {
   background-color: darkgrey;
 }
 
-#login-form{
+#login-form {
   display: flex;
   flex-direction: column;
-  width:100vw;
+  width: 100vw;
   align-items: center;
 }
 
-.login-input{
-  border:none;
+.login-input {
+  border: none;
   border-radius: 6px;
   padding-left: 5px;
-  margin-bottom:4vh;
+  margin-bottom: 4vh;
   font-size: 3vh;
   font-weight: bold;
   height: 4vh;
-  width: 20vw
+  width: 20vw;
 }
 
-.form-container{
-  margin-top:15vh;
+.form-container {
+  margin-top: 15vh;
 }
-.config-container{
-  margin-top:4vh;
+.config-container {
+  margin-top: 4vh;
 }
 
-
-#dialog-header{
+#dialog-header {
   display: flex;
   justify-content: space-between;
 }
 
-#close-dialog{
+#close-dialog {
   height: fit-content;
   align-self: center;
-
 }
 
-h1,h2,h3{
-  margin:2px 0px 2px 0px;
+h1,
+h2,
+h3 {
+  margin: 2px 0px 2px 0px;
 }
 
-#welcome{
-  margin-top:10%;
-  display:flex;
+#welcome {
+  margin-top: 10%;
+  display: flex;
   align-content: center;
   justify-content: space-around;
   color: #fff;
 }
 
-.color-config-container{
+.color-config-container {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -121,26 +124,25 @@ h1,h2,h3{
   font-size: 3vh;
 }
 
-.config-input{
-  border:none;
-  margin-left:4px;
+.config-input {
+  border: none;
+  margin-left: 4px;
   border-radius: 6px;
   padding-left: 5px;
   font-size: 3vh;
   font-weight: bold;
   text-align: center;
   height: 4vh;
-  width: 15vw
+  width: 15vw;
 }
 
-.key-config-btn{
+.key-config-btn {
   margin-left: 0px;
   margin-right: 0px;
-  width: 15vw
+  width: 15vw;
 }
 
-
-#numeric-config-container{
+#numeric-config-container {
   margin-bottom: 3%;
   font-size: 3vh;
   display: flex;
@@ -148,8 +150,8 @@ h1,h2,h3{
   width: 60%;
 }
 
-.config-field{
-  margin:10px 0 10px 0 ;
+.config-field {
+  margin: 10px 0 10px 0;
   display: flex;
   width: 40%;
   justify-content: space-between;
@@ -157,27 +159,41 @@ h1,h2,h3{
   color: #fff;
 }
 
-html,body{
+html,
+body {
   max-width: 100%;
   overflow-x: hidden;
 }
-.container-row{
+.container-row {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-#score{
+#score {
   margin-top: 5px;
 }
-#time{
+#time {
   margin-top: 5px;
 }
-#game{
+#game {
   display: flex;
   flex-direction: column;
 }
-#canvas{
+#canvas {
   position: relative;
-  left:calc(50vw - 35vh);
+  background-color: rgba(255, 255, 255, 0.01);
+  left: calc(50vw - 35vh);
+  width: 70vmin;
+  height: 70vmin;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: center;
+  padding-bottom: 1vh;
 }
