@@ -163,7 +163,7 @@ function musicPlay(status) {
 
 function configuresWindowSetter() {
   $("#username").append(" Test");
-  $("#conf-time").append(" "+);
+  $("#conf-time").append(" Test");
   $("#conf-balls").append(" Test");
   $("#conf-monsters ").append(" Test");
   $("#conf-5").css("color", "pink");
