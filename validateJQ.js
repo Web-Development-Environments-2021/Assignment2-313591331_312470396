@@ -1,7 +1,6 @@
 var errors = "";
 $(document).ready(function () {
   let a = $("form[name='registration']");
-  console.log(a);
   $("form[name='registration']").validate({
     rules: {
       full_name: { required: true, eden_no_num: true },
@@ -36,7 +35,7 @@ $(document).ready(function () {
       },
     },
     submitHandler: function (form) {
-      form.submit();
+      register(form[3].value, form[4].value);
     },
     errorElement: "div",
     errorPlacement: function (error, element) {
@@ -82,21 +81,15 @@ $.validator.addMethod(
   "full name must be without numbers ! "
 );
 
-function test() {
-  console.log("Works");
-}
-
 $.validator.addMethod(
   "myDate",
   function (value, element) {
-    console.log(value);
     if (value.substring(0, 4) <= "1900" || value.substring(0, 4) >= "2022")
       return false;
     if (value.substring(5, 7) <= "0" || value.substring(5, 7) >= "13")
       return false;
     if (value.substring(8, 10) <= "0" || value.substring(8, 10) >= "32")
       return false;
-    console.log(true);
     return true;
   },
   "Please enter a correct Date Year (1900-2021)"

@@ -22,7 +22,6 @@ function screenSwitch(divToShow) {
 }
 
 function about() {
-  console.log("ABOUT");
   $("#dialog").dialog("open");
 }
 
@@ -48,7 +47,6 @@ function initSelector() {
 function keyConfig(keyToConfig) {
   $("#" + keyToConfig + "-config").text("Click on key");
   $("button").prop("disabled", true);
-  console.log("Key " + keyToConfig);
   removeEventListener("keydown", keyConfig);
   let keyValue;
   var keyPress = false;
@@ -59,7 +57,6 @@ function keyConfig(keyToConfig) {
         ? arrowKey[keyValue]
         : String.fromCodePoint(keyValue);
       $("#" + keyToConfig + "-config").text(label);
-      console.log("value = " + keyValue);
       controls[keyToConfig] = keyValue;
       $("button").prop("disabled", false);
     }
@@ -84,25 +81,6 @@ $(document).ready(function () {
       return;
     }
     alert("User Name or Password is incorrect");
-  });
-
-  $("#register-button").click(function () {
-    var alertMsg = "";
-    var input = "";
-    alertMsg += emptyInput();
-    input = $("#password-reg").val();
-    alertMsg += validatePassword(input);
-    input = $("#full-name").val();
-    alertMsg += validateName(input);
-    input = $("#email").val();
-    alertMsg += validateEmail(input);
-    if (alertMsg != "") {
-      alert(alertMsg);
-      return;
-    }
-    dataBase[$("#user-name-reg").val()] = $("#password-reg").val();
-    alert("User Created");
-    resetView();
   });
 
   $("#start-btn").click(function () {
@@ -178,9 +156,7 @@ function NoPoints(status) {
 }
 
 function musicPlay(status) {
-  console.log(status);
   let playingAudio = $("#playingmusic")[0];
-  console.log(playingAudio);
   if (status) {
     playingAudio.play();
   } else if (!status) {
@@ -195,7 +171,6 @@ function configuresWindowSetter(
   monsters = 1,
   time = 60
 ) {
-  console.log(username);
   $("#username").append(" " + username);
   $("#conf-time").append("" + time);
   $("#conf-balls").append("" + ballAmount);
@@ -204,7 +179,6 @@ function configuresWindowSetter(
   $("#conf-15").css("color", colorList[1]);
   $("#conf-25").css("color", colorList[2]);
 }
-//log
 function getRandomColors() {
   let availableColors = ["red", "blue", "green", "white", "purple", "yellow"];
   let colors = [];
@@ -236,4 +210,10 @@ function Restart() {
   musicPlay(false);
   window.clearInterval(interval);
   Start();
+}
+function register(username, password) {
+  dataBase[username] = password;
+  alert("User Created\nUsername:" + username + "\nPassword:" + password);
+  resetView();
+  screenSwitch("#login");
 }

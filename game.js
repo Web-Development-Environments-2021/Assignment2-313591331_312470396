@@ -131,7 +131,6 @@ function moveEnemies() {
 }
 
 function GetKeyPressed() {
-  console.log(keys);
   if (keysDown[keys[3]]) {
     //left
     return 1;
@@ -159,6 +158,8 @@ function checkForCrash() {
     if (i_diff === 0 && j_diff === 0) {
       board[shape.i][shape.j] = 0;
       const crashPlace = [enemy_i, enemy_j];
+      let crashAudio = $("#pac_conf")[0];
+      crashAudio.play();
       score -= 10;
       life -= 1;
       initatePositions();

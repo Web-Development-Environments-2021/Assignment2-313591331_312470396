@@ -24,12 +24,11 @@
 			<div style="margin-right: 20px">Eden Berdugo</div>
 			<div style="margin-right: 20px">Barak Falach</div>
 		</div>
+
 	</head>
 
 	<body>
 		<div class="button-container">
-			<button class="app-btn" onclick="screenSwitch('#config')">config</button>
-			<button class="app-btn" onclick="screenSwitch('#game')">Game</button>
 			<button class="app-btn" onclick="screenSwitch('#welcome')">
 				Welcome
 			</button>
@@ -179,6 +178,7 @@
 				</div>
 			</div>
 		</div>
+		</div>
 		<!-- ---------------- LOG IN ---------------- -->
 		<div class="form-container" id="login">
 			<div id="login-form" class="login-form">
@@ -190,7 +190,7 @@
 		<!-- ---------------- REGISTER ---------------- -->
 		<div class="form-container" id="register">
 			<div id="register-form">
-				<form onsubmit="test()" name="registration" class="login-form">
+				<form name="registration" class="login-form">
 					<input name="full_name" id="full-name" class="login-input" type="text" placeholder="Full Name" />
 					<input name="email" id="email" class="login-input" type="text" placeholder="Email" />
 					<input name="birth_date" id="birth_date" class="login-input" type="date" />
@@ -206,18 +206,20 @@
 		<div title="About" class="about-contianer" id="dialog">
 			<div id="dialog-content">
 				<p>Eden Berdugo and Barak Falach</p>
-				<h3><i>issue</i></h3>
-				<p>we had some trouble with:</p>
-				<h3><i>JQuery</i></h3>
-				<p>we have used the following j query templates:...</p>
+				<h3><i>we had some trouble with:</i></h3>
+				<li>using the validation jquery plugin plugin </li>
+				<br>
+				<h3><i>we have used the following jquery templates:</i></h3>
+				<li>UI Dialog</li>
+				<li>Validate</li>
 			</div>
-		</div>
-		<footer class="footer">
-			The game built with HTML, javascript, JQuery. Be Careful from
-			covid-19(monster and virus).contact:
-			<a href="mailto: berdugoe@post.bgu.ac.il">Email</a>
-		</footer>
-		<audio loop id="playingmusic" src="./assets/pacman_begin.mp3"></audio>
+			<footer class="footer">
+				The game built with HTML, javascript, JQuery. Be Careful from
+				covid-19(monster and virus).contact:
+				<a href="mailto: berdugoe@post.bgu.ac.il">Email</a>
+			</footer>
+			<audio loop id="playingmusic" src="./assets/pacman_begin.mp3"></audio>
+			<audio id="pac_conf" src="./assets/pac_conf.wav"></audio>
 	</body>
 
 </html>
