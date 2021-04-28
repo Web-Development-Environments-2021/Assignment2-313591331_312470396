@@ -5,14 +5,13 @@ var controls = { left: 37, up: 38, right: 39, down: 40 };
 var keyConfigListener;
 var username;
 var colorJson = {
-  green: "green",
-  yellow: "yellow",
-  purple: "purple",
+  red: "red",
   blue: "blue",
+  green: "green",
+  white: "white",
+  purple: "purple",
+  yellow: "yellow",
 };
-var color1;
-var color2;
-var color3;
 
 function screenSwitch(divToShow) {
   resetView();
@@ -100,12 +99,9 @@ $(document).ready(function () {
       controls["down"],
       controls["left"],
     ];
-    color1 = color1 === "" ? "green" : color1;
-    color2 = color2 === "" ? "yellow" : color2;
-    color3 = color3 === "" ? "purple" : color3;
-    console.log(color1);
-    console.log(color2);
-    console.log(color3);
+    color1 = color1.length === 0 ? "orange" : color1;
+    color2 = color2.length === 0 ? "brown" : color2;
+    color3 = color3.length === 0 ? "teal" : color3;
     if (time < 60) time = 60;
 
     //setConfigurations(-array of 4 buttons(start from up)
@@ -120,7 +116,12 @@ $(document).ready(function () {
       monsters,
       time
     );
-    configuresWindowSetter();
+    configuresWindowSetter(
+      ballAmount,
+      [color1, color2, color3],
+      monsters,
+      time
+    );
     screenSwitch("#game");
     // $("#board").show();
   });
@@ -169,15 +170,20 @@ function musicPlay(status) {
   }
 }
 
-function configuresWindowSetter() {
+function configuresWindowSetter(
+  ballAmount = 40,
+  colorList = [color1, color2, color3],
+  monsters = 1,
+  time = 60
+) {
   console.log(username);
   $("#username").append(" " + username);
-  $("#conf-time").append(" Test");
-  $("#conf-balls").append(" Test");
-  $("#conf-monsters ").append(" Test");
-  $("#conf-5").css("color", color1);
-  $("#conf-15").css("color", color2);
-  $("#conf-25").css("color", color3);
+  $("#conf-time").append("" + time);
+  $("#conf-balls").append("" + ballAmount);
+  $("#conf-monsters ").append("" + monsters);
+  $("#conf-5").css("color", colorList[0]);
+  $("#conf-15").css("color", colorList[1]);
+  $("#conf-25").css("color", colorList[2]);
 }
 //log
 function getRandomColors() {
@@ -191,33 +197,26 @@ function getRandomColors() {
       rands[colors.length] = rand;
     }
   }
-  color1 = colors[0];
-  color1 = colors[1];
-  color1 = colors[2];
   return colors;
 }
 
 function randomGame() {
   const ballAmount = Math.floor(90 - 50 * Math.random());
   const time = Math.floor(150 - 90 * Math.random());
-  const monsters = Math.floor(4 - 3 * Math.random());
-  getRandomColors();
+  const monsters = Math.floor(4 - 3 * Math.random() + 0.5);
+  colors = getRandomColors();
+  $("#food-config").val("" + ballAmount);
+  $("#monster-config").val("" + monsters);
+  $("#time-config").val("" + time);
+  color1 = $("#color1-config").val(colors[0]);
+  color2 = $("#color2-config").val(colors[1]);
+  color3 = $("#color3-config").val(colors[2]);
+}
 
-  const controlsArray = [
-    controls["up"],
-    controls["right"],
-    controls["down"],
-    controls["left"],
-  ];
-  setConfigurations(
-    controlsArray,
-    ballAmount,
-    [color1, color2, color3],
-    monsters,
-    time
-  );
-  configuresWindowSetter();
-  screenSwitch("#game");
+function Restart() {
+  musicPlay(false);
+  window.clearInterval(interval);
+  Start();
 }
 
 function register() {

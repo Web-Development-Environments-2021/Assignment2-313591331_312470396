@@ -163,6 +163,7 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
+  color: whitesmoke;
 }
 .container-row {
   display: flex;
@@ -208,16 +209,22 @@ body {
 .config-at-game {
   justify-self: right;
   right: 0;
-  border: red 2px solid;
 }
 .game-container-row {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  border: red 4px solid;
+}
+.image-title-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
 }
 
 .canvas-wrapper {
-  border: white 2px solid;
   margin-left: 100px;
+}
+.text-border {
+  font-size: 24px;
 }
