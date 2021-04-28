@@ -67,7 +67,7 @@ body {
   background-color: darkgrey;
 }
 
-#login-form {
+.login-form {
   display: flex;
   flex-direction: column;
   width: 100vw;
