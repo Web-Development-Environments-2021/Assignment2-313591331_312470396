@@ -86,6 +86,25 @@ $(document).ready(function () {
     alert("User Name or Password is incorrect");
   });
 
+  $("#register-button").click(function () {
+    var alertMsg = "";
+    var input = "";
+    alertMsg += emptyInput();
+    input = $("#password-reg").val();
+    alertMsg += validatePassword(input);
+    input = $("#full-name").val();
+    alertMsg += validateName(input);
+    input = $("#email").val();
+    alertMsg += validateEmail(input);
+    if (alertMsg != "") {
+      alert(alertMsg);
+      return;
+    }
+    dataBase[$("#user-name-reg").val()] = $("#password-reg").val();
+    alert("User Created");
+    resetView();
+  });
+
   $("#start-btn").click(function () {
     let ballAmount = $("#food-config").val();
     let monsters = $("#monster-config").val();
@@ -217,25 +236,4 @@ function Restart() {
   musicPlay(false);
   window.clearInterval(interval);
   Start();
-}
-
-function register() {
-  var alertMsg = "";
-  var input = "";
-  alertMsg += emptyInput();
-  input = $("#password-reg").val();
-  alertMsg += validatePassword(input);
-  input = $("#full-name").val();
-  alertMsg += validateName(input);
-  input = $("#email").val();
-  alertMsg += validateEmail(input);
-  input = $("#user-name-reg").val();
-  alertMsg += validateUserName(input, dataBase);
-  if (alertMsg != "") {
-    alert(alertMsg);
-    return;
-  }
-  dataBase[$("#user-name-reg").val()] = $("#password-reg").val();
-  alert("User Created");
-  resetView();
 }
