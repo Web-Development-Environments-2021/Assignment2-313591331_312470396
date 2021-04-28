@@ -3,6 +3,7 @@ var maxTime;
 var numEnemies;
 var remain_max_walls;
 var balls_colors;
+var keys;
 function gameBoardCreation() {
   setBadMonstersPositions();
   let cnt = rows * cols;

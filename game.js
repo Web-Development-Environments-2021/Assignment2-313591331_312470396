@@ -131,6 +131,7 @@ function moveEnemies() {
 }
 
 function GetKeyPressed() {
+  console.log(keys);
   if (keysDown[keys[3]]) {
     //left
     return 1;

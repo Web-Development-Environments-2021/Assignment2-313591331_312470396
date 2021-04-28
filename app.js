@@ -3,12 +3,16 @@ var input;
 var arrowKey = { 37: "left", 38: "up", 39: "right", 40: "down" };
 var controls = { left: 37, up: 38, right: 39, down: 40 };
 var keyConfigListener;
+var username;
 var colorJson = {
   green: "green",
   yellow: "yellow",
   purple: "purple",
   blue: "blue",
 };
+var color1;
+var color2;
+var color3;
 
 function screenSwitch(divToShow) {
   resetView();
@@ -73,11 +77,11 @@ $(document).ready(function () {
   $("#welcome").show();
   initSelector();
   $("#login-button").click(function () {
-    console.log("Login!");
     var name = $("#user-name").val();
     var password = $("#password").val();
     if (dataBase[name] == password) {
-      screenSwitch("#game");
+      screenSwitch("#config");
+      username = $("#user-name").val();
       return;
     }
     alert("User Name or Password is incorrect");
@@ -106,9 +110,9 @@ $(document).ready(function () {
     let ballAmount = $("#food-config").val();
     let monsters = $("#monster-config").val();
     let time = $("#time-config").val();
-    let color1 = $("#color1-config").val();
-    let color2 = $("#color2-config").val();
-    let color3 = $("#color3-config").val();
+    color1 = $("#color1-config").val();
+    color2 = $("#color2-config").val();
+    color3 = $("#color3-config").val();
     let controlsArray = [
       controls["up"],
       controls["right"],
@@ -118,6 +122,9 @@ $(document).ready(function () {
     color1 = color1 === "" ? "green" : color1;
     color2 = color2 === "" ? "yellow" : color2;
     color3 = color3 === "" ? "purple" : color3;
+    console.log(color1);
+    console.log(color2);
+    console.log(color3);
     if (time < 60) time = 60;
 
     //setConfigurations(-array of 4 buttons(start from up)
@@ -128,11 +135,9 @@ $(document).ready(function () {
     setConfigurations(
       controlsArray,
       ballAmount,
-      color1,
-      color2,
-      color3,
-      time,
-      monsters
+      [color1, color2, color3],
+      monsters,
+      time
     );
     configuresWindowSetter();
     screenSwitch("#game");
@@ -167,8 +172,8 @@ $(document).ready(function () {
 });
 
 function NoPoints(status) {
-  if (status) $("#lblScore").addClass("no-score");
-  if (!status) $("#lblScore").removeClass("no-score");
+  if (status) $("#lblscoreleft").addClass("no-score");
+  if (!status) $("#lblscoreleft").removeClass("no-score");
 }
 
 function musicPlay(status) {
@@ -184,31 +189,38 @@ function musicPlay(status) {
 }
 
 function configuresWindowSetter() {
-  $("#username").append(" Test");
+  console.log(username);
+  $("#username").append(" " + username);
   $("#conf-time").append(" Test");
   $("#conf-balls").append(" Test");
   $("#conf-monsters ").append(" Test");
-  $("#conf-5").css("color", "pink");
-  $("#conf-15").css("color", "red");
-  $("#conf-25").css("color", "white");
+  $("#conf-5").css("color", color1);
+  $("#conf-15").css("color", color2);
+  $("#conf-25").css("color", color3);
 }
 //log
-function getRandomColor() {
-  var letters = "0123456789ABCDEF";
-  var color = "#";
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+function getRandomColors() {
+  let availableColors = ["red", "blue", "green", "white", "purple", "yellow"];
+  let colors = [];
+  let rands = [];
+  while (colors.length < 3) {
+    let rand = Math.floor(Math.random() * availableColors.length);
+    if (!rands.includes(rand)) {
+      colors[colors.length] = availableColors[rand];
+      rands[colors.length] = rand;
+    }
   }
-  return color;
+  color1 = colors[0];
+  color1 = colors[1];
+  color1 = colors[2];
+  return colors;
 }
 
 function randomGame() {
   const ballAmount = Math.floor(90 - 50 * Math.random());
   const time = Math.floor(150 - 90 * Math.random());
   const monsters = Math.floor(4 - 3 * Math.random());
-  const color1 = getRandomColor();
-  const color2 = getRandomColor();
-  const color3 = getRandomColor();
+  getRandomColors();
 
   const controlsArray = [
     controls["up"],
@@ -216,15 +228,12 @@ function randomGame() {
     controls["down"],
     controls["left"],
   ];
-
   setConfigurations(
     controlsArray,
     ballAmount,
-    color1,
-    color2,
-    color3,
-    time,
-    monsters
+    [color1, color2, color3],
+    monsters,
+    time
   );
   configuresWindowSetter();
   screenSwitch("#game");
