@@ -105,6 +105,22 @@ $(document).ready(function () {
   $("#start-btn").click(function () {
     var alertMsg = "";
     var input = "";
+    let ballAmount = $("#food-config").val();
+    let monsters = $("#monster-config").val();
+    let time = $("#time-config").val();
+    let color1 = $("#color1-config").val();
+    let color2 = $("#color2-config").val();
+    let color3 = $("#color3-config").val();
+    let controlsArray = [
+      controls["up"],
+      controls["right"],
+      controls["down"],
+      controls["left"],
+    ];
+    color1 = color1 === "" ? "green" : color1;
+    color2 = color2 === "" ? "yellow" : color2;
+    color3 = color3 === "" ? "purple" : color3;
+    if (time < 60) time = 60;
     //setConfigurations(-array of 4 buttons(start from up)
     // -amount of food 50-90 (int)
     // -balls 3 colors as string example["blue,red green"](array)
