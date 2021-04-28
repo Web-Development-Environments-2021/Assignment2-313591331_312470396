@@ -170,3 +170,4 @@ function configuresWindowSetter() {
   $("#conf-15").css("color", "red");
   $("#conf-25").css("color", "white");
 }
+//log
