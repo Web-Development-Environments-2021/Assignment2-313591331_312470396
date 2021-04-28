@@ -14,10 +14,14 @@ var colorJson = {
 };
 
 function screenSwitch(divToShow) {
+  play_on = false;
   resetView();
   $(divToShow).show();
   if (divToShow == "#game") {
+    play_on = true;
     Start();
+  } else {
+    musicPlay(false);
   }
 }
 

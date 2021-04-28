@@ -1,15 +1,21 @@
 # Assignment2
- 
+
 ## Students
- 
-Eden Berdugo -  313591331
+
+Eden Berdugo - 313591331
 Barak Falach - 312470396
 
 ## URL
 
 https://web-development-environments-2021.github.io/assignment2-Barak_Eden/
 
-## Added Functionality: 
+## Added Functionality:
 
-1.  the Snitch - a special moving item that if collect the player gain 50 points. 
-2.  Parasite - a special moving item that if taken it absorbs for 2 seconds all the points collect by the player
+Main 2:
+
+1. The ZERO equalizer - a O Ring that if hit, set your score to 0!
+2. Parasite - a special moving item that if taken it absorbs for 2 seconds all the points from balls collect by the player. while you in this bad position, the Score label is bold in red color.
+   Others:
+
+- in the first 2 seconds you are safe from bad monsters. life is not decreasing and points are not reduced.
+- Sound when monster hit.

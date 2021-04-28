@@ -7,12 +7,11 @@
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
 		<link href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="./jquery-3.4.1.slim.min.js"></script>
+		<script src="./JQuery/jquery-3.4.1.slim.min.js"></script>
 		<script src="./JQuery/jquery.validate.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 		<script type="text/javascript" src="./game.js"></script>
-		<script type="text/javascript" src="./validation.js"></script>
 		<script type="text/javascript" src="./boardInitialize.js"></script>
 		<script type="text/javascript" src="./drawBoard.js"></script>
 		<script type="text/javascript" src="./validateJQ.js"></script>
@@ -95,6 +94,9 @@
 						<div style="width: 8px;"> </div>
 						<label for="FiftyPoint">+50 Score</label>
 					</div>
+					<div class="image-title-row">
+						You have 2 seconds at the beginning to stay away from covid.(2M Away!)
+					</div>
 					<button class="app-btn" onclick="Restart()">
 						New Game
 					</button>
@@ -119,7 +121,7 @@
 					</div>
 					<div class="config-field">
 						<label>Time</label>
-						<input id="time-config" class="config-input" type="number" value="40" min="40"
+						<input id="time-config" class="config-input" type="number" value="40" min="60"
 							style="padding: 0px" />
 					</div>
 					<div class="config-field">
@@ -207,7 +209,7 @@
 			<div id="dialog-content">
 				<p>Eden Berdugo and Barak Falach</p>
 				<h3><i>we had some trouble with:</i></h3>
-				<li>using the validation jquery plugin plugin </li>
+				<li>using the validation jquery plugin, but at the end we succeed! </li>
 				<br>
 				<h3><i>we have used the following jquery templates:</i></h3>
 				<li>UI Dialog</li>

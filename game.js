@@ -31,6 +31,8 @@ var foodRemainGame;
 var colorBool;
 var noPointsStatus;
 var zeroPointsMonster;
+var time_forgiven;
+var play_on;
 
 /*
 
@@ -44,6 +46,8 @@ var zeroPointsMonster;
 */
 
 function Start() {
+  musicPlay(false);
+  if (interval != null) window.clearInterval(interval);
   setInitialValues();
   gameBoardCreation();
   addEventListener(
@@ -64,6 +68,9 @@ function Start() {
   interval = setInterval(UpdatePosition, IntervalTime);
 }
 function UpdatePosition() {
+  if (!play_on || play_on == null) {
+    return;
+  }
   movePlayer();
   collisionChecks();
   moveOthers();
@@ -150,6 +157,9 @@ function GetKeyPressed() {
 }
 
 function checkForCrash() {
+  if (time_forgiven > 0) {
+    return;
+  }
   for (let index = numEnemies - 1; index >= 0; index--) {
     enemy_i = enemyPos[index][0];
     enemy_j = enemyPos[index][1];
@@ -249,6 +259,7 @@ function movePlayer() {
   The Responsible for moving the Pacman.
   Responsible for calling function for updating points in case of food eating.
   */
+  time_forgiven--;
   board[shape.i][shape.j] = 0;
   var x = GetKeyPressed();
   if (x == 1) {
@@ -318,6 +329,7 @@ function checkForFinishGame() {
   }
 }
 function initatePositions() {
+  time_forgiven = 16;
   if (life >= 0) {
     setPacman();
     setBadMonstersPositions();
@@ -349,6 +361,7 @@ function Hotness() {
   }
 }
 function setInitialValues() {
+  time_forgiven = 16;
   rows = 20;
   cols = 20;
   IntervalTime = 170;
