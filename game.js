@@ -350,7 +350,7 @@ function Hotness() {
 function setInitialValues() {
   rows = 20;
   cols = 20;
-  IntervalTime = 200;
+  IntervalTime = 170;
   life = 5;
   colorBool = true;
   foodRemainGame = totalFood;
