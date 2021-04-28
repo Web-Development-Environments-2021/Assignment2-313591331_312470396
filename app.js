@@ -115,6 +115,10 @@ $(document).ready(function () {
       controls["down"],
       controls["left"],
     ];
+    color1 = color1 === "" ? "green" : color1;
+    color2 = color2 === "" ? "yellow" : color2;
+    color3 = color3 === "" ? "purple" : color3;
+    if (time < 60) time = 60;
 
     //setConfigurations(-array of 4 buttons(start from up)
     // -amount of food 50-90 (int)
