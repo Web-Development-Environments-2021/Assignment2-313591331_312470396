@@ -19,3 +19,4 @@ Main 2:
 
 - in the first 2 seconds you are safe from bad monsters. life is not decreasing and points are not reduced.
 - Sound when monster hit.
+- "HOT MODE" if you have more than 50 points, and you reach it in less than 10 seconds, your colors change rapidly.
