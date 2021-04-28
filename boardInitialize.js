@@ -34,6 +34,7 @@ function gameBoardCreation() {
     }
   }
   putMonsters();
+  putBonusMonsters();
   while (foodRemain > 0) {
     var emptyCell = findRandomEmptyCell(board);
     putFood(emptyCell[0], emptyCell[1]);
@@ -62,9 +63,9 @@ function setPacman() {
 
 function setConfigurations(
   keys_array = [87, 68, 83, 65],
-  food = 80,
+  food = 1,
   balls_color = ["green", "blue", "purple"],
-  monsters = 3,
+  monsters = 0,
   time = 99999
 ) {
   keys = keys_array;
@@ -104,4 +105,12 @@ function findRandomEmptyCell(board) {
     j = Math.floor(Math.random() * (cols - 1) + 1);
   }
   return [i, j];
+}
+function putBonusMonsters() {
+  var emptyCell = findRandomEmptyCell(board);
+  nonPointsMonster = emptyCell;
+  board2[nonPointsMonster[0]][nonPointsMonster[1]] = 7; // add good Monster
+  var emptyCell = findRandomEmptyCell(board);
+  zeroPointsMonster = emptyCell;
+  board2[zeroPointsMonster[0]][zeroPointsMonster[1]] = 8; // add good Monster
 }

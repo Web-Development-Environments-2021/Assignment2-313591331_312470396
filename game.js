@@ -19,14 +19,30 @@ var interval;
 var totalFood;
 var enemyPos = {};
 var goodMonster;
+var countGoodMonster;
+var nonPointsMonster;
+var countNonPointMonster;
 var rows;
 var cols;
 var IntervalTime;
 var pacmanDir = 0;
-var countGoodMonster;
 var life;
 var foodRemainGame;
 var colorBool;
+var noPointsStatus;
+var zeroPointsMonster;
+
+/*
+
+  0 - empty cell
+  1 - food (15,115,125) 1 is a prefix to point.
+  2 - pacman
+  3 - 
+  4 - wall 
+  7 - temporal no points monster
+  8 - zero point monster
+*/
+
 function Start() {
   setInitialValues();
   gameBoardCreation();
@@ -48,9 +64,10 @@ function Start() {
 }
 function UpdatePosition() {
   movePlayer();
+  collisionChecks();
   moveOthers();
-  gameStatus();
   Draw();
+  gameStatus();
 }
 
 function moveEnemies() {
@@ -69,9 +86,9 @@ function moveEnemies() {
     if (i_diff > j_diff) {
       //move y axis
       distance = enemy_i - shape.i;
-      if (distance > 0 && GoodMonsterAbleGo("up", enemy_i, enemy_j)) {
+      if (distance > 0 && MonsterAbleToGo("up", enemy_i, enemy_j)) {
         enemy_i -= 1;
-      } else if (distance < 0 && GoodMonsterAbleGo("down", enemy_i, enemy_j)) {
+      } else if (distance < 0 && MonsterAbleToGo("down", enemy_i, enemy_j)) {
         enemy_i += 1;
       } else {
         //enemy did not succeed to pass wall.
@@ -80,9 +97,9 @@ function moveEnemies() {
     } else {
       //move x axis
       distance = enemy_j - shape.j;
-      if (distance > 0 && GoodMonsterAbleGo("left", enemy_i, enemy_j)) {
+      if (distance > 0 && MonsterAbleToGo("left", enemy_i, enemy_j)) {
         enemy_j -= 1;
-      } else if (distance < 0 && GoodMonsterAbleGo("right", enemy_i, enemy_j)) {
+      } else if (distance < 0 && MonsterAbleToGo("right", enemy_i, enemy_j)) {
         enemy_j += 1;
       } else {
         //enemy did not succeed to pass wall.
@@ -92,16 +109,16 @@ function moveEnemies() {
     if (wall_stuck) {
       let dir = Math.random();
       if (dir > 0.6) {
-        if (dir < 0.7 && GoodMonsterAbleGo("up", enemy_i, enemy_j)) {
+        if (dir < 0.7 && MonsterAbleToGo("up", enemy_i, enemy_j)) {
           //up
           enemy_i -= 1;
-        } else if (dir < 0.8 && GoodMonsterAbleGo("right", enemy_i, enemy_j)) {
+        } else if (dir < 0.8 && MonsterAbleToGo("right", enemy_i, enemy_j)) {
           //right
           enemy_j += 1;
-        } else if (dir < 0.9 && GoodMonsterAbleGo("down", enemy_i, enemy_j)) {
+        } else if (dir < 0.9 && MonsterAbleToGo("down", enemy_i, enemy_j)) {
           //down
           enemy_i += 1;
-        } else if (GoodMonsterAbleGo("left", enemy_i, enemy_j)) {
+        } else if (MonsterAbleToGo("left", enemy_i, enemy_j)) {
           //left
           enemy_j -= 1;
         }
@@ -151,34 +168,62 @@ function checkForCrash() {
 function moveOthers() {
   deepcopy2d();
   moveGoodMonster();
+  moveNonPointMonster();
+  moveZeroPointMonster();
   moveEnemies();
 }
 
 function moveGoodMonster() {
   // moves the good monster
-  if (countGoodMonster <= 0) return;
+  if (countGoodMonster <= 0) {
+    return;
+  }
+  if (checkIfGoodMonsterCollision()) return;
   let moveDecider = Math.random() * 100;
   if (moveDecider > 25) {
     //will move only 75% precent of time to allow pacman to catch him
     let rand = Math.random() * 100;
     if (rand <= 25) {
-      if (GoodMonsterAbleGo("up", goodMonster[0], goodMonster[1]))
+      if (MonsterAbleToGo("up", goodMonster[0], goodMonster[1]))
         goodMonster[0] -= 1;
     } else if (rand <= 50) {
-      if (GoodMonsterAbleGo("right", goodMonster[0], goodMonster[1]))
+      if (MonsterAbleToGo("right", goodMonster[0], goodMonster[1]))
         goodMonster[1] += 1;
     } else if (rand <= 75) {
-      if (GoodMonsterAbleGo("down", goodMonster[0], goodMonster[1]))
+      if (MonsterAbleToGo("down", goodMonster[0], goodMonster[1]))
         goodMonster[0] += 1;
     } else {
-      if (GoodMonsterAbleGo("left", goodMonster[0], goodMonster[1]))
+      if (MonsterAbleToGo("left", goodMonster[0], goodMonster[1]))
         goodMonster[1] -= 1;
     }
   }
   board2[goodMonster[0]][goodMonster[1]] = 3;
 }
+function moveNonPointMonster() {
+  // moves the good monster
+  if (countNonPointMonster < 20) return;
+  let moveDecider = Math.random() * 100;
+  if (moveDecider > 25) {
+    //will move only 75% precent of time to allow pacman to catch him
+    let rand = Math.random() * 100;
+    if (rand <= 12) {
+      if (MonsterAbleToGo("up", nonPointsMonster[0], nonPointsMonster[1]))
+        nonPointsMonster[0] -= 1;
+    } else if (rand <= 50) {
+      if (MonsterAbleToGo("right", nonPointsMonster[0], nonPointsMonster[1]))
+        nonPointsMonster[1] += 1;
+    } else if (rand <= 75) {
+      if (MonsterAbleToGo("down", nonPointsMonster[0], nonPointsMonster[1]))
+        nonPointsMonster[0] += 1;
+    } else {
+      if (MonsterAbleToGo("left", nonPointsMonster[0], nonPointsMonster[1]))
+        nonPointsMonster[1] -= 1;
+    }
+  }
+  board2[nonPointsMonster[0]][nonPointsMonster[1]] = 7;
+}
 
-function GoodMonsterAbleGo(dir, i, j) {
+function MonsterAbleToGo(dir, i, j) {
   const can_go_there = [0, 1, 2, 15, 115, 125];
   switch (dir) {
     case "up":
@@ -226,16 +271,6 @@ function movePlayer() {
   }
   checkForPointIncrease();
   board[shape.i][shape.j] = 2;
-  if (
-    countGoodMonster > 0 &&
-    shape.i == goodMonster[0] &&
-    shape.j == goodMonster[1]
-  ) {
-    score += 50;
-    countGoodMonster--;
-    board2[goodMonster[0]][goodMonster[1]] = 0;
-    return;
-  }
 }
 
 function setBadMonstersPositions() {
@@ -258,10 +293,8 @@ function checkForFinishGame() {
   if (life === 0) {
     window.clearInterval(interval);
     ans = confirm(message + "\nLoser!" + end);
-  } else if (foodRemainGame <= 0) {
-    window.clearInterval(interval);
-    ans = confirm(message + "\nWinner!!!" + end);
-  } else if (time_elapsed >= maxTime) {
+  }
+  if (foodRemainGame <= 0 || time_elapsed >= maxTime) {
     if (score < 100) {
       window.clearInterval(interval);
       ans = confirm("You are better than " + score + " points!" + end);
@@ -290,6 +323,7 @@ function gameStatus() {
   - checking if there was a crash 
   - checking if pacman is in "HOT" mode.
   */
+  updateOfNoPointsValue();
   checkForFinishGame();
   checkForCrash();
   Hotness();
@@ -311,11 +345,14 @@ function Hotness() {
 function setInitialValues() {
   rows = 10;
   cols = 10;
-  IntervalTime = 250;
+  IntervalTime = 200;
   life = 2;
   colorBool = true;
   foodRemainGame = totalFood;
   countGoodMonster = 1;
+  countNonPointMonster = 20;
+  noPointsStatus = false;
+  this.NoPoints(false);
   goodMonster = [Math.floor((rows - 1) / 2), Math.floor((cols - 1) / 2)];
   board = new Array();
   board2 = new Array();
@@ -335,19 +372,99 @@ function checkForPointIncrease() {
   /*
   - Responsible for increasePoint
   */
-  if (board2[shape.i][shape.j] == 15) {
-    score += 5;
-    foodRemainGame--;
-  } else if (board2[shape.i][shape.j] == 115) {
-    foodRemainGame--;
-    score += 15;
-  } else if (board2[shape.i][shape.j] == 125) {
-    foodRemainGame--;
-    score += 25;
+  if ([15, 115, 125].includes(board2[shape.i][shape.j])) foodRemainGame--;
+  if (noPointsStatus) {
+    return;
   }
+  if (board2[shape.i][shape.j] == 15) score += 5;
+  else if (board2[shape.i][shape.j] == 115) score += 15;
+  else if (board2[shape.i][shape.j] == 125) score += 25;
 }
 function updateTitles() {
   lblScore.value = score;
   lblTime.value = time_elapsed;
   lblLife.value = life;
+}
+function updateOfNoPointsValue() {
+  if (this.noPointsStatus == true) {
+    countNonPointMonster--;
+    if (countNonPointMonster == 0) {
+      noPointsStatus = false;
+      NoPoints(false);
+    }
+  }
+}
+
+function checkIfGoodMonsterCollision() {
+  if (
+    countGoodMonster > 0 &&
+    shape.i == goodMonster[0] &&
+    shape.j == goodMonster[1]
+  ) {
+    score += 50;
+    countGoodMonster--;
+    board[goodMonster[0]][goodMonster[1]] = 2;
+    goodMonster[0] = null;
+    goodMonster[1] = null;
+    return true;
+  }
+  return false;
+}
+function moveZeroPointMonster() {
+  // moves the good monster
+  if (zeroPointsMonster[0] == -1) return;
+  let moveDecider = Math.random() * 100;
+  if (moveDecider > 25) {
+    //will move only 75% precent of time to allow pacman to catch him
+    let rand = Math.random() * 100;
+    if (rand <= 12) {
+      if (MonsterAbleToGo("up", zeroPointsMonster[0], zeroPointsMonster[1]))
+        zeroPointsMonster[0] -= 1;
+    } else if (rand <= 50) {
+      if (MonsterAbleToGo("right", zeroPointsMonster[0], zeroPointsMonster[1]))
+        zeroPointsMonster[1] += 1;
+    } else if (rand <= 75) {
+      if (MonsterAbleToGo("down", zeroPointsMonster[0], zeroPointsMonster[1]))
+        zeroPointsMonster[0] += 1;
+    } else {
+      if (MonsterAbleToGo("left", zeroPointsMonster[0], zeroPointsMonster[1]))
+        zeroPointsMonster[1] -= 1;
+    }
+  }
+  board2[zeroPointsMonster[0]][zeroPointsMonster[1]] = 8;
+}
+
+function checkIfNoPointMonsterCollision() {
+  if (
+    // Crash with NonPoint Monster
+    countNonPointMonster > 0 &&
+    shape.i == nonPointsMonster[0] &&
+    shape.j == nonPointsMonster[1]
+  ) {
+    noPointsStatus = true;
+    this.NoPoints(true);
+    board[nonPointsMonster[0]][nonPointsMonster[1]] = 2;
+    return true;
+  }
+  return false;
+}
+
+function checkIfZeroMonsterCollision() {
+  if (
+    // Crash with NonPoint Monster
+    shape.i == zeroPointsMonster[0] &&
+    shape.j == zeroPointsMonster[1]
+  ) {
+    board[zeroPointsMonster[0]][zeroPointsMonster[1]] = 2;
+    zeroPointsMonster[0] = -1; // flag disable moving zeropointmonster
+    score = 0;
+
+    return true;
+  }
+  return false;
+}
+function collisionChecks() {
+  if (checkIfGoodMonsterCollision()) return;
+  if (checkIfNoPointMonsterCollision()) return;
+  if (checkIfZeroMonsterCollision()) return;
 }
