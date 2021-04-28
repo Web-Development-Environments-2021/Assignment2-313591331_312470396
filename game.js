@@ -60,6 +60,7 @@ function Start() {
     },
     false
   );
+  musicPlay(true);
   interval = setInterval(UpdatePosition, IntervalTime);
 }
 function UpdatePosition() {
@@ -291,14 +292,17 @@ function checkForFinishGame() {
   let end = "\n\nWould like to play again?";
   let ans = null;
   if (life === 0) {
+    musicPlay(false);
     window.clearInterval(interval);
     ans = confirm(message + "\nLoser!" + end);
   }
   if (foodRemainGame <= 0 || time_elapsed >= maxTime) {
     if (score < 100) {
+      musicPlay(false);
       window.clearInterval(interval);
       ans = confirm("You are better than " + score + " points!" + end);
     } else {
+      musicPlay(false);
       window.clearInterval(interval);
       ans = confirm(message + "\nWinner!!!" + end);
     }

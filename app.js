@@ -111,6 +111,7 @@ $(document).ready(function () {
     // -time for game minimum 60 (int)
     // -monsters 1-4 (int)
     // );
+    configuresWindowSetter();
     setConfigurations();
     $("#config").hide();
     $("#board").show();
@@ -146,4 +147,26 @@ $(document).ready(function () {
 function NoPoints(status) {
   if (status) $("#lblScore").addClass("no-score");
   if (!status) $("#lblScore").removeClass("no-score");
+}
+
+function musicPlay(status) {
+  console.log(status);
+  let playingAudio = $("#playingmusic")[0];
+  console.log(playingAudio);
+  if (status) {
+    playingAudio.play();
+  } else if (!status) {
+    playingAudio.pause();
+    playingAudio.currentTime = 0;
+  }
+}
+
+function configuresWindowSetter() {
+  $("#username").append(" Test");
+  $("#conf-time").append(" "+);
+  $("#conf-balls").append(" Test");
+  $("#conf-monsters ").append(" Test");
+  $("#conf-5").css("color", "pink");
+  $("#conf-15").css("color", "red");
+  $("#conf-25").css("color", "white");
 }
