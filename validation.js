@@ -44,3 +44,9 @@ function emptyInput() {
   }
   return alertMsg;
 }
+
+function validateUserName(input, data) {
+  let alertMsg = "";
+  alertMsg = input in data ? "User Name Already exist" : "";
+  return alertMsg;
+}
