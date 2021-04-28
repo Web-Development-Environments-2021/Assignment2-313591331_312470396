@@ -7,7 +7,7 @@ Barak Falach - 312470396
 
 ## URL
 
-https://web-development-environments-2021.github.io/assignment2-Barak_Eden/
+https://web-development-environments-2021.github.io/Assignment2-313591331_312470396/
 
 ## Added Functionality:
 
