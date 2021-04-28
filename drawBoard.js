@@ -4,6 +4,8 @@ var height;
 var wallImg;
 var monsterImg;
 var covidMonsterImg;
+var noPointsTimeImg;
+var ZeroImg;
 loadImages();
 function Draw() {
   context = canvas.getContext("2d");
@@ -16,11 +18,14 @@ function Draw() {
     for (var j = 0; j < cols; j++) {
       center.x = j * elem_size + elem_size / 2;
       center.y = i * elem_size + elem_size / 2;
-      if (board2[i][j] == 3) drawGoodEnemy();
+      if (board[i][j] == 2) drawPacman();
+      else if (board2[i][j] == 3) drawGoodEnemy();
       else if (enemy.includes(board2[i][j])) drawBall(i, j);
       else if (board2[i][j] == 4) drawWall();
       else if (board2[i][j] == 5) drawEnemies();
-      else if (board2[i][j] == 2) drawPacman();
+      else if (board2[i][j] == 7 && countNonPointMonster == 20)
+        drawNoPointsMonster();
+      else if (board2[i][j] == 8) drawZeroPointsMonster();
     }
   }
 }
@@ -66,7 +71,6 @@ function drawPacman() {
 function drawBall(i, j) {
   context.beginPath();
   context.arc(center.x, center.y, elem_size / 4, 0, 2 * Math.PI); // circle
-
   switch (board2[i][j]) {
     case 15:
       context.fillStyle = balls_colors[0]; //color
@@ -136,4 +140,26 @@ function loadImages() {
   monsterImg.src = "./assets/good_monster.png";
   covidMonsterImg = new Image();
   covidMonsterImg.src = "./assets/covid_monster.png";
+  noPointsTimeImg = new Image();
+  noPointsTimeImg.src = "./assets/wait.jpg";
+  ZeroImg = new Image();
+  ZeroImg.src = "./assets/zero_points.png";
+}
+function drawNoPointsMonster() {
+  context.drawImage(
+    noPointsTimeImg,
+    center.x - elem_size / 2,
+    center.y - elem_size / 2,
+    elem_size,
+    elem_size
+  );
+}
+function drawZeroPointsMonster() {
+  context.drawImage(
+    ZeroImg,
+    center.x - elem_size / 2,
+    center.y - elem_size / 2,
+    elem_size,
+    elem_size
+  );
 }

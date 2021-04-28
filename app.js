@@ -142,3 +142,8 @@ $(document).ready(function () {
     $(this).data("old", this.value);
   });
 });
+
+function NoPoints(status) {
+  if (status) $("#lblScore").addClass("no-score");
+  if (!status) $("#lblScore").removeClass("no-score");
+}
