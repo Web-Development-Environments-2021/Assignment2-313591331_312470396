@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<link rel="stylesheet" type="text/css" href="app.css" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -24,7 +23,6 @@
 		<div style="margin-right: 20px">Barak Falach</div>
 	</div>
 </head>
-
 <body>
 	<div class="button-container">
 		<button class="app-btn" onclick="screenSwitch('#config')">config</button>
@@ -177,24 +175,62 @@
 			</div>
 		</div>
 	</div>
-	<div class="form-container" id="login">
-		<div id="login-form">
-			<input class="login-input" type="text" placeholder="Enter User Name" id="user-name" name="name" />
-			<input class="login-input" type="password" placeholder="Enter Password" id="password" name="password" />
-			<button class="app-btn" id="login-button">Login</button>
-		</div>
-	</div>
-	<div class="form-container" id="register">
-		<div id="login-form">
-			<input id="full-name" class="login-input" type="text" placeholder="Full Name" />
-			<input id="email" class="login-input" type="text" placeholder="Email" />
-			<input id="birth-date" class="login-input" type="date" />
-			<input id="user-name-reg" class="login-input" type="text" placeholder="Choose User Name" />
-			<input id="password-reg" class="login-input" type="password" placeholder="Enter Password" id="password"
-				name="password" />
-			<button class="app-btn" id="register-button">Register</button>
-		</div>
-	</div>
+	  <!-- ---------------- LOG IN ---------------- -->
+    <div class="form-container" id="login">
+      <div id="login-form" class="login-form">
+        <input
+          class="login-input"
+          type="text"
+          placeholder="Enter User Name"
+          id="user-name"
+          name="name"
+        />
+        <input
+          class="login-input"
+          type="password"
+          placeholder="Enter Password"
+          id="password"
+          name="password"
+        />
+        <button class="app-btn" id="login-button">Login</button>
+      </div>
+    </div>
+    <!-- ---------------- REGISTER ---------------- -->
+    <div class="form-container" id="register">
+      <div id="register-form" class="login-form">
+        <input
+          id="full-name"
+          class="login-input"
+          type="text"
+          placeholder="Full Name"
+        />
+        <input id="email" class="login-input" type="text" placeholder="Email" />
+        <input id="birth-date" class="login-input" type="date" />
+        <input
+          id="user-name-reg"
+          class="login-input"
+          type="text"
+          placeholder="Choose User Name"
+        />
+        <input
+          id="password-reg"
+          class="login-input"
+          type="password"
+          placeholder="Enter Password"
+          id="password"
+          name="password"
+        />
+        <button
+          onclick="register()"
+          type="submit"
+          class="app-btn"
+          id="register-button"
+        >
+          Register
+        </button>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+      </div>
+    </div>
 	<div title="About" class="about-contianer" id="dialog">
 		<div id="dialog-content">
 			<p>Eden Berdugo and Barak Falach</p>
