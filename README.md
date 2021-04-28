@@ -1,8 +1,13 @@
 # Assignment2
  
-## Eden Berdugo 313 Barak Falach 312470396
+## Students
+ 
+Eden Berdugo -  313591331
+Barak Falach - 312470396
 
-## URL : https://web-development-environments-2021.github.io/assignment2-Barak_Eden/
+## URL
+
+https://web-development-environments-2021.github.io/assignment2-Barak_Eden/
 
 ## Added Functionality: 
 
