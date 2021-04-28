@@ -16,6 +16,8 @@ function gameBoardCreation() {
     for (var j = 0; j < cols; j++) {
       if (!putWalls(i, j)) {
         var randomNum = Math.random();
+        randomNum -= (2 * Math.abs(5 - i)) / (cnt / 2);
+        randomNum -= (2 * Math.abs(5 - j)) / (cnt / 2);
         if (randomNum <= (1.0 * foodRemain) / cnt) {
           putFood(i, j);
         } else if (
@@ -82,7 +84,7 @@ function putFood(i, j) {
   } else if (rand <= 0.9) {
     board[i][j] = 115;
   } else {
-    board[i][j] = 115;
+    board[i][j] = 125;
   }
   foodRemain--;
 }

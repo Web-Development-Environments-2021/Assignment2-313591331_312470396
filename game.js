@@ -348,10 +348,10 @@ function Hotness() {
   }
 }
 function setInitialValues() {
-  rows = 10;
-  cols = 10;
+  rows = 20;
+  cols = 20;
   IntervalTime = 200;
-  life = 2;
+  life = 5;
   colorBool = true;
   foodRemainGame = totalFood;
   countGoodMonster = 1;

@@ -71,13 +71,33 @@
 			<div class="canvas-wrapper">
 				<canvas id="canvas" height="500" width="500"></canvas>
 			</div>
+			<div style="width: 5%;"></div>
 			<div class="config-at-game">
+				<div style="margin-top: 20px;"></div>
 				<div id="conf-time">Time:</div>
 				<div id="conf-balls">Total Balls:</div>
 				<div id="conf-monsters">Total Monsters:</div>
-				<div id="conf-5">5 Point</div>
-				<div id="conf-15">15 Point</div>
-				<div id="conf-25">25 Point</div>
+				<div class="text-border" id="conf-5">5 Point</div>
+				<div class="text-border" id="conf-15">15 Point</div>
+				<div class="text-border" id="conf-25">25 Point</div>
+				<div class="image-title-row">
+					<img id="NoPoint" src="assets/covid_monster.png" width="36" height="36" />
+					<div style="width: 8px;"> </div>
+					<label for="NoPoint">Covid: The Enemy, Life -1, Score -10</label>
+				</div>
+				<div class="image-title-row">
+					<img id="Wait" src="assets/wait.jpg" width="36" height="36" />
+					<div style="width: 8px;"> </div>
+					<label for="Wait">Balls not adding points(2Sec)</label>
+				</div>
+				<div class="image-title-row">
+					<img id="FiftyPoint" src="assets/good_monster.png" width="36" height="36" />
+					<div style="width: 8px;"> </div>
+					<label for="FiftyPoint">+50 Score</label>
+				</div>
+				<button class="app-btn" onclick="Restart()">
+					New Game
+				</button>
 			</div>
 		</div>
 	</div>
@@ -189,7 +209,7 @@
 		covid-19(monster and virus).contact:
 		<a href="mailto: berdugoe@post.bgu.ac.il">Email</a>
 	</footer>
-	<audio loop id="playingmusic" src="./assets/pacman_beginning.wav"></audio>
+	<audio loop id="playingmusic" src="./assets/pacman_begin.mp3"></audio>
 </body>
 
 </html>
