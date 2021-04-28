@@ -1,172 +1,259 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<link rel="stylesheet" type="text/css" href="app.css" />
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-	<link href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
-	<script src="./jquery-3.4.1.slim.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script type="text/javascript" src="./app.js"></script>
-	<script type="text/javascript" src="./game.js"></script>
-	<script type="text/javascript" src="./validation.js"></script>
-	<script type="text/javascript" src="./boardInitialize.js"></script>
-	<script type="text/javascript" src="./drawBoard.js"></script>
-	<div class="head-container">
-		<div class="c">
-			<img src="assets/pacman_logo.png" width="36" height="36" />
-		</div>
-		<div style="margin-left:10px; margin-right: 20px;">PACMAN </div>
-		<div style="margin-right: 20px;">Eden Berdugo </div>
-		<div style="margin-right: 20px;">Barak Falach </div>
-	</div>
-</head>
-
-<body>
-	<div class="button-container">
-		<button class="app-btn" onclick="screenSwitch('#config')">config</button>
-		<button class="app-btn" onclick="screenSwitch('#game')">Game</button>
-		<button class="app-btn" onclick="screenSwitch('#welcome')">Welcome</button>
-		<button class="app-btn" onclick="screenSwitch('#register')">Register</button>
-		<button class="app-btn" onclick="screenSwitch('#login')">Log In</button>
-		<button class="app-btn" onclick="about()">About</button>
-	</div>
-	<div id="welcome">
-		<div id="class-container">
-			<h1>Welcome PACMAN</h1>
-			<p>if you already have account click <l>Login</l> otherwise click <l>Register</l>
-			</p>
-			<button class="app-btn" onclick="screenSwitch('#register')">Register</button>
-			<button class="app-btn" onclick="screenSwitch('#login')">Log In</button>
-		</div>
-
-	</div>
-	<div id="game">
-		<div class="container-row">
-			<label id="username">Hello, </label>
-			<div id="score">
-				<label for="lblScore">SCORE:</label>
-				<input id="lblScore" type="text" />
-			</div>
-			<div id="life">
-				<label for="lblLife">Life:</label>
-				<input id="lblLife" type="text" />
-			</div>
-			<div id="time">
-				<label for="lblTime">TIME:</label>
-				<input id="lblTime" type="text" />
-			</div>
-		</div>
-		<div class="game-container-row">
-			<div class="canvas-wrapper">
-				<canvas id="canvas" height="500" width="500"></canvas>
-			</div>
-			<div class="config-at-game">
-				<div id="conf-time">Time: </div>
-				<div id="conf-balls">Total Balls: </div>
-				<div id="conf-monsters">Total Monsters: </div>
-				<div id="conf-5">5 Point</div>
-				<div id="conf-15">15 Point</div>
-				<div id="conf-25">25 Point</div>
-			</div>
-		</div>
-	</div>
-	<div id="config">
-		<div class="config-container">
-			<div id="login-form">
-				<div class="config-field">
-					<label>Balls Amount</label>
-					<select id="food-config" class="config-input" type="number"></select>
-				</div>
-				<div class="config-field">
-					<label>Monsters Amount</label>
-					<select id="monster-config" class="config-input" type="number" min="1" max="4">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select>
-				</div>
-				<div class="config-field">
-					<label>Time</label>
-					<input id="time-config" class="config-input" type="number" style="padding: 0px;">
-				</div>
-				<div class="config-field">
-					<label>5 Points Ball Color</label>
-					<select class="color-input config-input" id="color1-config">
-						<option></option>
-					</select>
-				</div>
-				<div class="config-field">
-					<label>15 Points Ball Color</label>
-					<select class="color-input config-input" id="color2-config">
-						<option></option>
-					</select>
-				</div>
-				<div class="config-field">
-					<label>25 Points Ball Color</label>
-					<select class="color-input config-input" id="color3-config">
-						<option></option>
-					</select>
-				</div>
-				<div class="config-field" style="justify-content: center;">
-					<h3><b><u>Controls Settings</u></b></h3>
-				</div>
-				<div class="config-field">
-					<label id="up-lbl">Up</label>
-					<button onclick="keyConfig('up')" class="app-btn key-config-btn" id="up-config">up</button>
-				</div>
-				<div class="config-field">
-					<label id="left-lbl">Left</label>
-					<button onclick="keyConfig('left')" class="app-btn key-config-btn" id="left-config">left</button>
-				</div>
-				<div class="config-field">
-					<label id="down-lbl">Down</label>
-					<button onclick="keyConfig('down')" class="app-btn key-config-btn" id="down-config">down</button>
-				</div>
-				<div class="config-field">
-					<label id="right-lbl">Right</label>
-					<button onclick="keyConfig('right')" class="app-btn key-config-btn" id="right-config">right</button>
-				</div>
-				<button class="app-btn" id="start-btn">Start Game</button>
-			</div>
-		</div>
-	</div>
-	<div class="form-container" id="login">
-		<div id="login-form">
-			<input class="login-input" type="text" placeholder="Enter User Name" id="user-name" name="name">
-			<input class="login-input" type="password" placeholder="Enter Password" id="password" name="password">
-			<button class="app-btn" id="login-button">Login</button>
-		</div>
-	</div>
-	<div class="form-container" id="register">
-		<div id="login-form">
-			<input id="full-name" class="login-input" type="text" placeholder="Full Name">
-			<input id="email" class="login-input" type="text" placeholder="Email">
-			<input id="birth-date" class="login-input" type="date">
-			<input id="user-name-reg" class="login-input" type="text" placeholder="Choose User Name">
-			<input id="password-reg" class="login-input" type="password" placeholder="Enter Password" id="password"
-				name="password">
-			<button class="app-btn" id="register-button">Register</button>
-		</div>
-	</div>
-	<div title="About" class="about-contianer" id="dialog">
-		<!-- <div id="dialog-header">
-			</div> -->
-		<div id="dialog-content">
-			<p>Eden Berdugo and Barak Falach </p>
-			<h3><i>issue</i></h3>
-			<p>we had some trouble with:</p>
-			<h3><i>JQuery</i></h3>
-			<p>we have used the following j query templates:...</p>
-		</div>
-	</div>
-	<footer class="footer">The game built with HTML, javascript, JQuery. Be Careful from covid-19(monster and
-		virus).contact: <a href="mailto: berdugoe@post.bgu.ac.il">Email</a></footer>
-	<audio loop id="playingmusic" src="./assets/pacman_beginning.wav">
-</body>
-
+  <head>
+    <link rel="stylesheet" type="text/css" href="app.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.min.css"
+      rel="stylesheet"
+    />
+    <script src="./jquery-3.4.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+    <script type="text/javascript" src="./game.js"></script>
+    <script type="text/javascript" src="./validation.js"></script>
+    <script type="text/javascript" src="./boardInitialize.js"></script>
+    <script type="text/javascript" src="./drawBoard.js"></script>
+    <div class="head-container">
+      <div class="c">
+        <img src="assets/pacman_logo.png" width="36" height="36" />
+      </div>
+      <div style="margin-left: 10px; margin-right: 20px">PACMAN</div>
+      <div style="margin-right: 20px">Eden Berdugo</div>
+      <div style="margin-right: 20px">Barak Falach</div>
+    </div>
+  </head>
+  <body>
+    <div class="button-container">
+      <button class="app-btn" onclick="screenSwitch('#config')">config</button>
+      <button class="app-btn" onclick="screenSwitch('#game')">Game</button>
+      <button class="app-btn" onclick="screenSwitch('#welcome')">
+        Welcome
+      </button>
+      <button class="app-btn" onclick="screenSwitch('#register')">
+        Register
+      </button>
+      <button class="app-btn" onclick="screenSwitch('#login')">Log In</button>
+      <button class="app-btn" onclick="about()">About</button>
+    </div>
+    <div id="welcome">
+      <div id="class-container">
+        <h1>Welcome PACMAN</h1>
+        <p>
+          if you already have account click <l>Login</l> otherwise click
+          <l>Register</l>
+        </p>
+        <button class="app-btn" onclick="screenSwitch('#register')">
+          Register
+        </button>
+        <button class="app-btn" onclick="screenSwitch('#login')">Log In</button>
+      </div>
+    </div>
+    <div id="game">
+      <div class="container-row">
+        <label id="username">Hello, </label>
+        <div id="score">
+          <label for="lblScore">SCORE:</label>
+          <input id="lblScore" type="text" />
+        </div>
+        <div id="life">
+          <label for="lblLife">Life:</label>
+          <input id="lblLife" type="text" />
+        </div>
+        <div id="time">
+          <label for="lblTime">TIME:</label>
+          <input id="lblTime" type="text" />
+        </div>
+      </div>
+      <div class="game-container-row">
+        <div class="canvas-wrapper">
+          <canvas id="canvas" height="500" width="500"></canvas>
+        </div>
+        <div class="config-at-game">
+          <div id="conf-time">Time:</div>
+          <div id="conf-balls">Total Balls:</div>
+          <div id="conf-monsters">Total Monsters:</div>
+          <div id="conf-5">5 Point</div>
+          <div id="conf-15">15 Point</div>
+          <div id="conf-25">25 Point</div>
+        </div>
+      </div>
+    </div>
+    <div id="config">
+      <div class="config-container">
+        <div id="login-form">
+          <div class="config-field">
+            <label>Balls Amount</label>
+            <select
+              id="food-config"
+              class="config-input"
+              type="number"
+            ></select>
+          </div>
+          <div class="config-field">
+            <label>Monsters Amount</label>
+            <select
+              id="monster-config"
+              class="config-input"
+              type="number"
+              min="1"
+              max="4"
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+          <div class="config-field">
+            <label>Time</label>
+            <input
+              id="time-config"
+              class="config-input"
+              type="number"
+              style="padding: 0px"
+            />
+          </div>
+          <div class="config-field">
+            <label>5 Points Ball Color</label>
+            <select class="color-input config-input" id="color1-config">
+              <option></option>
+            </select>
+          </div>
+          <div class="config-field">
+            <label>15 Points Ball Color</label>
+            <select class="color-input config-input" id="color2-config">
+              <option></option>
+            </select>
+          </div>
+          <div class="config-field">
+            <label>25 Points Ball Color</label>
+            <select class="color-input config-input" id="color3-config">
+              <option></option>
+            </select>
+          </div>
+          <div class="config-field" style="justify-content: center">
+            <h3>
+              <b><u>Controls Settings</u></b>
+            </h3>
+          </div>
+          <div class="config-field">
+            <label id="up-lbl">Up</label>
+            <button
+              onclick="keyConfig('up')"
+              class="app-btn key-config-btn"
+              id="up-config"
+            >
+              up
+            </button>
+          </div>
+          <div class="config-field">
+            <label id="left-lbl">Left</label>
+            <button
+              onclick="keyConfig('left')"
+              class="app-btn key-config-btn"
+              id="left-config"
+            >
+              left
+            </button>
+          </div>
+          <div class="config-field">
+            <label id="down-lbl">Down</label>
+            <button
+              onclick="keyConfig('down')"
+              class="app-btn key-config-btn"
+              id="down-config"
+            >
+              down
+            </button>
+          </div>
+          <div class="config-field">
+            <label id="right-lbl">Right</label>
+            <button
+              onclick="keyConfig('right')"
+              class="app-btn key-config-btn"
+              id="right-config"
+            >
+              right
+            </button>
+          </div>
+          <div>
+            <button class="app-btn" id="start-btn">Start Game</button>
+            <button class="app-btn" onclick="randomGame()" id="random-btn">
+              Random
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-container" id="login">
+      <div id="login-form">
+        <input
+          class="login-input"
+          type="text"
+          placeholder="Enter User Name"
+          id="user-name"
+          name="name"
+        />
+        <input
+          class="login-input"
+          type="password"
+          placeholder="Enter Password"
+          id="password"
+          name="password"
+        />
+        <button class="app-btn" id="login-button">Login</button>
+      </div>
+    </div>
+    <div class="form-container" id="register">
+      <div id="login-form">
+        <input
+          id="full-name"
+          class="login-input"
+          type="text"
+          placeholder="Full Name"
+        />
+        <input id="email" class="login-input" type="text" placeholder="Email" />
+        <input id="birth-date" class="login-input" type="date" />
+        <input
+          id="user-name-reg"
+          class="login-input"
+          type="text"
+          placeholder="Choose User Name"
+        />
+        <input
+          id="password-reg"
+          class="login-input"
+          type="password"
+          placeholder="Enter Password"
+          id="password"
+          name="password"
+        />
+        <button class="app-btn" id="register-button">Register</button>
+      </div>
+    </div>
+    <div title="About" class="about-contianer" id="dialog">
+      <!-- <div id="dialog-header">
+				</div> -->
+      <div id="dialog-content">
+        <p>Eden Berdugo and Barak Falach</p>
+        <h3><i>issue</i></h3>
+        <p>we had some trouble with:</p>
+        <h3><i>JQuery</i></h3>
+        <p>we have used the following j query templates:...</p>
+      </div>
+    </div>
+    <footer class="footer">
+      The game built with HTML, javascript, JQuery. Be Careful from
+      covid-19(monster and virus).contact:
+      <a href="mailto: berdugoe@post.bgu.ac.il">Email</a>
+    </footer>
+    <audio loop id="playingmusic" src="./assets/pacman_beginning.wav"></audio>
+  </body>
 </html>

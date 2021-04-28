@@ -103,8 +103,6 @@ $(document).ready(function () {
   });
 
   $("#start-btn").click(function () {
-    var alertMsg = "";
-    var input = "";
     let ballAmount = $("#food-config").val();
     let monsters = $("#monster-config").val();
     let time = $("#time-config").val();
@@ -121,16 +119,24 @@ $(document).ready(function () {
     color2 = color2 === "" ? "yellow" : color2;
     color3 = color3 === "" ? "purple" : color3;
     if (time < 60) time = 60;
+
     //setConfigurations(-array of 4 buttons(start from up)
     // -amount of food 50-90 (int)
     // -balls 3 colors as string example["blue,red green"](array)
     // -time for game minimum 60 (int)
-    // -monsters 1-4 (int)
     // );
+    setConfigurations(
+      controlsArray,
+      ballAmount,
+      color1,
+      color2,
+      color3,
+      time,
+      monsters
+    );
     configuresWindowSetter();
-    setConfigurations();
-    $("#config").hide();
-    $("#board").show();
+    screenSwitch("#game");
+    // $("#board").show();
   });
 
   $("#dialog").dialog({
@@ -187,3 +193,39 @@ function configuresWindowSetter() {
   $("#conf-25").css("color", "white");
 }
 //log
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function randomGame() {
+  const ballAmount = Math.floor(90 - 50 * Math.random());
+  const time = Math.floor(150 - 90 * Math.random());
+  const monsters = Math.floor(4 - 3 * Math.random());
+  const color1 = getRandomColor();
+  const color2 = getRandomColor();
+  const color3 = getRandomColor();
+
+  const controlsArray = [
+    controls["up"],
+    controls["right"],
+    controls["down"],
+    controls["left"],
+  ];
+
+  setConfigurations(
+    controlsArray,
+    ballAmount,
+    color1,
+    color2,
+    color3,
+    time,
+    monsters
+  );
+  configuresWindowSetter();
+  screenSwitch("#game");
+}
