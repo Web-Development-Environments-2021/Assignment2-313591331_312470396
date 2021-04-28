@@ -13,7 +13,7 @@ https://web-development-environments-2021.github.io/assignment2-Barak_Eden/
 
 Main 2:
 
-1. The ZERO equalizer - a O Ring that if hit, set your score to 0!
+1. The ZERO equalizer - an O Ring that if hit, set your score to 0!
 2. Parasite - a special moving item that if taken it absorbs for 2 seconds all the points from balls collect by the player. while you in this bad position, the Score label is bold in red color.
    Others:
 
