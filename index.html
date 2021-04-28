@@ -9,6 +9,7 @@
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="./jquery.validate.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 		<script type="text/javascript" src="./game.js"></script>
 		<script type="text/javascript" src="./validation.js"></script>
@@ -63,7 +64,9 @@
 				<div id="login-form" >
 						<div class="config-field">
 						<label>Balls Amount</label>
-						<select id="food-config" class="config-input" type="number"></select>
+						<select id="food-config" class="config-input" type="number">
+							<option value="40">40</option>
+						</select>
 						</div>
 						<div class="config-field">
 						<label>Monsters Amount</label>
@@ -76,7 +79,7 @@
 						</div>
 						<div class="config-field">
 						<label>Time</label>
-						<input id="time-config" class="config-input" type="number" style="padding: 0px;">
+						<input id="time-config" class="config-input" type="number" style="padding: 0px;" required>
 						</div>
 						<div class="config-field">
 							<label>5 Points Ball Color</label>
@@ -127,14 +130,17 @@
 			</div>
 		</div>
 		<div class="form-container" id="register">
-			<div id="login-form" > 
-				<input id="full-name" class="login-input" type="text" placeholder="Full Name">
-				<input id="email" class="login-input" type="text" placeholder="Email">
-				<input id="birth-date" class="login-input" type="date" >
-				<input id="user-name-reg" class="login-input" type="text" placeholder="Choose User Name">
-				<input id="password-reg" class="login-input" type="password" placeholder="Enter Password" id="password" name="password">
-				<button class="app-btn" id="register-button" >Register</button>
-			</div>
+			<form id="login-form" method="GET" action=""> 
+				<input name="name" id="full-name" class="login-input" type="text" placeholder="Full Name" required>
+				<input name="email" id="email" class="login-input" type="email" placeholder="Email" required>
+				<input name="birth-date" id="birth-date" class="login-input" type="date" required>
+				<input name="user-name" id="user-name-reg" class="login-input" type="text" placeholder="Choose User Name" required>
+				<input name="password" id="password-reg" class="login-input" type="password" placeholder="Enter Password" id="password" name="password" required>
+				<input type="submit" class="app-btn" id="register-button" ></button>
+			</form>
+			<script>
+				console.log($("#login-form").validate());
+			</script>
 		</div>
 		<div title="About" class="about-contianer" id="dialog">
 			<!-- <div id="dialog-header">
