@@ -31,7 +31,7 @@ function resetView() {
   $("#config").hide();
 }
 function initSelector() {
-  for (var i = 40; i < 91; i++) {
+  for (var i = 41; i < 91; i++) {
     $("#food-config").append("<option value=" + i + ">" + i + "</option>");
   }
 
@@ -83,37 +83,55 @@ $(document).ready(function () {
     alert("User Name or Password is incorrect");
   });
 
-  $("#register-button").click(function () {
-    var alertMsg = "";
-    var input = "";
-    alertMsg += emptyInput();
-    input = $("#password-reg").val();
-    alertMsg += validatePassword(input);
-    input = $("#full-name").val();
-    alertMsg += validateName(input);
-    input = $("#email").val();
-    alertMsg += validateEmail(input);
-    if (alertMsg != "") {
-      alert(alertMsg);
-      return;
-    }
-    dataBase[$("#user-name-reg").val()] = $("#password-reg").val();
-    alert("User Created");
-    resetView();
-  });
+  // $("#register-button").click(function () {
+  //   var alertMsg = "";
+  //   var input = "";
+  //   alertMsg += emptyInput();
+  //   input = $("#password-reg").val();
+  //   alertMsg += validatePassword(input);
+  //   input = $("#full-name").val();
+  //   alertMsg += validateName(input);
+  //   input = $("#email").val();
+  //   alertMsg += validateEmail(input);
+  //   if (alertMsg != "") {
+  //     alert(alertMsg);
+  //     return;
+  //   }
+  //   dataBase[$("#user-name-reg").val()] = $("#password-reg").val();
+  //   alert("User Created");
+  //   resetView();
+  // });
 
   $("#start-btn").click(function () {
-    var alertMsg = "";
-    var input = "";
+    let ballAmount = $("#food-config").val();
+    let monsters = $("#monster-config").val();
+    let time = $("#time-config").val();
+    let color1 = $("#color1-config").val();
+    let color2 = $("#color2-config").val();
+    let color3 = $("#color3-config").val();
+    let controlsArray = [
+      controls["up"],
+      controls["right"],
+      controls["down"],
+      controls["left"],
+    ];
+
     //setConfigurations(-array of 4 buttons(start from up)
     // -amount of food 50-90 (int)
     // -balls 3 colors as string example["blue,red green"](array)
     // -time for game minimum 60 (int)
-    // -monsters 1-4 (int)
     // );
-    setConfigurations();
-    $("#config").hide();
-    $("#board").show();
+    setConfigurations(
+      controlsArray,
+      ballAmount,
+      color1,
+      color2,
+      color3,
+      time,
+      monsters
+    );
+    screenSwitch("#game");
+    // $("#board").show();
   });
 
   $("#dialog").dialog({
@@ -143,7 +161,43 @@ $(document).ready(function () {
   });
 });
 
+function randomGame() {
+  const ballAmount = Math.floor(90 - 50 * Math.random());
+  const time = Math.floor(150 - 90 * Math.random());
+  const monsters = Math.floor(4 - 3 * Math.random());
+  const color1 = getRandomColor();
+  const color2 = getRandomColor();
+  const color3 = getRandomColor();
+
+  const controlsArray = [
+    controls["up"],
+    controls["right"],
+    controls["down"],
+    controls["left"],
+  ];
+
+  setConfigurations(
+    controlsArray,
+    ballAmount,
+    color1,
+    color2,
+    color3,
+    time,
+    monsters
+  );
+  screenSwitch("#game");
+}
+
 function NoPoints(status) {
   if (status) $("#lblScore").addClass("no-score");
   if (!status) $("#lblScore").removeClass("no-score");
+}
+
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
